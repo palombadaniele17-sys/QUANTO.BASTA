@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Quanto Basta — Menù Digitale</title>
+
+<!-- Font Premium da Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0B0908;           /* Nero fumo profondo */
+  --panel: #161311;        /* Antracite per i blocchi menu */
+  --accent: #D4AF37;       /* Oro brillante per i prezzi */
+  --accent-amber: #FF9F1C; /* Ambra per richiamare il calore della brace */
+  --text: #F5F3F0;         /* Bianco avorio per massima leggibilità */
+  --muted: #A6A099;        /* Grigio caldo per le descrizioni */
+  --line: rgba(212, 175, 55, 0.15);
+  --shadow: 0 20px 45px rgba(0,0,0,0.85);
+  --radius: 20px;
+  --max: 600px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background-color: var(--bg);
+  background-image: 
+    radial-gradient(circle at 10% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 20%, rgba(255, 159, 28, 0.05) 0%, transparent 40%);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 16px 16px 80px;
+}
+
+/* SCHERMATA SELEZIONE LINGUA - APERTA DI DEFAULT */
+#language-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  background-image: radial-gradient(circle at 50% 50%, rgba(214, 175, 55, 0.05) 0%, transparent 70%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.4s ease, visibility 0.4s;
+}
+
+#language-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.lang-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+.lang-sub {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 45px;
+  line-height: 1.5;
+}
+
+.lang-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.lang-btn {
+  background: var(--panel);
+  border: 1px solid rgba(214, 175, 55, 0.25);
+  color: #FFFFFF;
+  padding: 18px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transition: all 0.25s ease;
+}
+
+.lang-btn:hover {
+  border-color: var(--accent);
+  background: rgba(214, 175, 55, 0.08);
+  transform: translateY(-2px);
+}
+
+/* CONTENUTO PRINCIPALE (NASCosto FINCHÉ NON SI SCEGLIE LA LINGUA) */
+#main-content {
+  display: none;
+}
+
+/* HERO IN STILE LOUNGE BRACE */
+.hero {
+  background: linear-gradient(135deg, #1C1816 0%, #110E0D 100%);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: var(--radius);
+  padding: 40px 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  margin-bottom: 22px;
+}
+
+.hero-tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: var(--accent-amber);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+}
+
+.hero-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 8px;
+  font-weight: 300;
+}
+
+/* NAVIGAZIONE SCROLLABILE */
+.nav-container {
+  position: sticky;
+  top: 10px;
+  z-index: 100;
+  margin-bottom: 25px;
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 6px 4px 12px;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+
+.pill {
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #161311;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pill:hover, .pill.active {
+  background: #FFFFFF;
+  color: #0B0908;
+  border-color: #FFFFFF;
+}
+
+/* LE PAGINE DEL MENU */
+.page {
+  display: none;
+  background: var(--panel);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow);
+  padding: 24px 20px;
+  margin-bottom: 25px;
+  animation: scaleUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.page.active { display: block; }
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.page h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page h2 span { color: var(--accent-amber); }
+
+/* BLOCCHI SPECIALI PROMO */
+.promo-box {
+  background: rgba(214, 175, 55, 0.06);
+  border: 1px dashed var(--accent);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 15px;
+}
+
+.promo-title {
+  font-weight: 700;
+  font-size: 16px;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* SINGOLO ELEMENTO */
+.item {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.item:last-child { border-bottom: none; }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.name { font-weight: 600; font-size: 15px; color: #FFFFFF; }
+.price { font-weight: 700; font-size: 15px; color: var(--accent); white-space: nowrap; }
+.desc { margin-top: 5px; font-size: 13px; color: var(--muted); line-height: 1.45; }
+
+.back-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: #FFFFFF;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.footer { text-align: center; margin-top: 40px; font-size: 12px; color: var(--muted); }
+.footer strong { color: var(--accent); }
+</style>
+</head>
+
+<body>
+
+<!-- SCHERMATA SELEZIONE LINGUA (APARE IMMEDIATAMENTE ALL'AVVIO) -->
+<div id="language-screen">
+  <div class="lang-logo">Quanto Basta</div>
+  <div class="lang-sub">Benvenuto! Scegli la lingua del menù<br>Welcome! Choose your menu language</div>
+  <div class="lang-box">
+    <button class="lang-btn" onclick="selectLanguage('it')">🇮🇹 Italiano</button>
+    <button class="lang-btn" onclick="selectLanguage('en')">🇬🇧 English</button>
+  </div>
+</div>
+
+<!-- CONTENUTO PRINCIPALE (RESTA NASCOSTO FINO ALLA SCELTA LINGUA) -->
+<div id="main-content" class="wrap">
+
+  <div class="hero">
+    <div class="hero-tag" id="hero-tag">Carne • Vino • Contemporanea</div>
+    <div class="hero-title">Quanto Basta</div>
+    <div class="hero-sub">Corso Garibaldi, 33 — Torre del Greco</div>
+  </div>
+
+  <!-- BARRA DI NAVIGAZIONE MULTILINGUA -->
+  <div class="nav-container">
+    <nav class="nav" id="main-nav">
+      <!-- I bottoni delle categorie appaiono qui via Javascript -->
+    </nav>
+  </div>
+
+  <!-- CONTENITORE DELLE MINI PAGINE -->
+  <div id="menu-pages"></div>
+
+  <div class="footer">
+    <p><span id="footer-welcome">Benvenuti da</span> <strong>Quanto Basta</strong></p>
+    <p style="font-size:11px; opacity:0.6; margin-top:4px;" id="footer-nfc">Inquadrato tramite Tag NFC al Tavolo</p>
+  </div>
+
+</div>
+
+<script>
+// DATABASE COMPLETO DEL MENU CON SPIEGAZIONI SOTTO I TITOLI
+const menuData = {
+  it: {
+    heroTag: "Carne • Vino • Contemporanea",
+    footerWelcome: "Benvenuti da",
+    footerNfc: "Inquadrato tramite Tag NFC al Tavolo",
+    backText: "⬅ Torna alle Categorie",
+    categories: {
+      antipasti: "Antipasti",
+      primi: "Primi Piatti",
+      secondi: "Dalla Brace",
+      grigliate: "I Menù Grigliata",
+      degustazione: "Degustazione",
+      dolci: "I Dolci"
+    },
+    items: {
+      antipasti: [
+        { name: "Selezione mista di salumi e formaggi", price: "€25,00", desc: "Tagliere ricco di salumi artigianali e formaggi locali selezionati dallo Chef (consigliato per due persone)." },
+        { name: "Carpaccio affumicato “Cecina de Leon”", price: "€13,00", desc: "Pregiata carne bovina stagionata e affumicata, servita con rucola e pomodorini freschi." },
+        { name: "Tartare di Manzo", price: "€12,00", desc: "Battuta al coltello condita delicatamente, servita con pomodori di Sorrento e mousse di formaggio." },
+        { name: "Vitello Tonnato", price: "€13,00", desc: "Girello di vitello cotto a bassa temperatura con salsa tonnata artigianale fatta in casa." },
+        { name: "La nostra Parmigiana", price: "€10,00", desc: "Melanzane fritte, saporito sugo di pomodoro, provola e basilico secondo l'antica tradizione." },
+        { name: "Guancia Brasata", price: "€11,00", desc: "Morbida guancia di manzo stracotta a fuoco lento nel suo fondo di cottura brunito ricchissimo di sapore." }
+      ],
+      primi: [
+        { name: "Risotto alla Nerano", price: "€15,00 p.p.", desc: "Cremoso risotto alle zucchine, fiori di zucca e Provolone del Monaco (ordinazione minima per 2 persone)." },
+        { name: "Pici Cacio e Pepe con Guanciale Croccante", price: "€15,00", desc: "Pasta pici freschi conditi con pecorino romano DOP, pepe nero tostato e guanciale a striscioline croccanti." },
+        { name: "Linguine con crema di peperoni arrosto", price: "€15,00", desc: "Linguine saltate con crema di peperoni dolci, fonduta di Parmigiano e briciole di Patanegra croccante." },
+        { name: "Tordello ripieno di melanzana", price: "€18,00", desc: "Ravioli fatti in casa ripieni di melanzane a funghetto, conditi con vellutata salsa al pomodoro fresco." },
+        { name: "Corteccia al ragù di agnello", price: "€18,00", desc: "Pasta corta tipica campana servita con un ricco e tenero ragù d'agnello sfilacciato e crema di Parmigiano." }
+      ],
+      secondi: [
+        { name: "Filetto di manzo ai ferri", price: "€30,00", desc: "Filetto tenerissimo di prima scelta cotto sulla griglia, accompagnato da un contorno a vostra scelta." },
+        { name: "Tagliata di Manzo", price: "€25,00", desc: "Tagliata di manzo nazionale cotta sulla brace, servita su un letto di rucola fresca e pomodorini." },
+        { name: "Grigliata Mista di Carne", price: "€45,00", desc: "Ricco assortimento di carni selezionate cotte a fuoco vivo, ideale da dividere (per due persone)." },
+        { name: "Ribs in CBT con salsa BBQ", price: "€20,00", desc: "Costine di maiale cotte a bassa temperatura per ore, laccate alla BBQ e servite con patate al forno." },
+        { name: "Spalla di agnello arrosto con patate", price: "€22,00", desc: "Spalla d'agnello cotta lentamente al forno e aromatizzata alle erbe, servita con patate novelle al rosmarino." }
+      ],
+      grigliate: [
+        { type: "promo", name: "Menù Grigliata Classic", price: "€35,00", desc: "Comprende: 4 antipasti centrali della casa + grigliata mista di carne servita al centro con patatine fritte. Acqua e coperto inclusi (valido per l'intero tavolo)." },
+        { type: "promo", name: "Menù Grigliata Deluxe", price: "€45,00", desc: "Comprende: 4 antipasti centrali della casa + 1Kg di carne premium scelta direttamente dalla nostra vetrina con contorno. Acqua e coperto inclusi (valido per l'intero tavolo)." }
+      ],
+      degustazione: [
+        { name: "Menù Degustazione Tradizione", price: "€40,00", desc: "Un viaggio nei nostri sapori: un antipasto della casa, un primo piatto, un secondo piatto e il dolce finale (minimo per tutto il tavolo)." },
+        { name: "Menù Degustazione & Wine Pairing", price: "€50,00", desc: "Il nostro percorso degustazione completo (Antipasto, Primo, Secondo, Dolce) abbinato a calici di vino selezionati dalle nostre cantine." }
+      ],
+      dolci: [
+        { name: "Babà con crema al limone", price: "€6,00", desc: "Il classico dolce napoletano bagnato al rum, arricchito con crema profumata ai limoni della costiera." },
+        { name: "Semifreddo al caramello salato", price: "€6,00", desc: "Un dessert freddo e vellutato che unisce la dolcezza del caramello a un pizzico di sale marino." },
+        { name: "Tartelletta con albicocca confit e gelato fior di latte", price: "€6,00", desc: "Guscio di frolla friabile con albicocche caramellate e gelato cremoso artigianale al fior di latte." },
+        { name: "Tiramisù Tradizionale", price: "€6,00", desc: "Crema al mascarpone montata ad arte, savoiardi imbevuti di caffè espresso e cacao amaro." }
+      ]
+    }
+  },
+  en: {
+    heroTag: "Meat • Wine • Contemporary Kitchen",
+    footerWelcome: "Welcome to",
+    footerNfc: "Scanned via NFC Tag at the Table",
+    backText: "⬅ Back to Categories",
+    categories: {
+      antipasti: "Starters",
+      primi: "First Courses",
+      secondi: "From the Grill",
+      grigliate: "Grill Menus",
+      degustazione: "Tasting Experience",
+      dolci: "Desserts"
+    },
+    items: {
+      antipasti: [
+        { name: "Mixed selection of cold cuts and cheeses", price: "€25,00", desc: "A rich board of premium artisan cured meats and selected local cheeses (recommended for two people)." },
+        { name: "Smoked Carpaccio “Cecina de Leon”", price: "€13,00", desc: "Finely sliced premium cured and smoked beef, served with fresh rocket salad and cherry tomatoes." },
+        { name: "Beef Tartare", price: "€12,00", desc: "Hand-cut beef seasoned delicately, served with Sorrento tomatoes and a light cheese mousse." },
+        { name: "Vitello Tonnato", price: "€13,00", desc: "Slow-cooked veal eye of round, thinly sliced and topped with a creamy, rich homemade tuna sauce." },
+        { name: "Our Parmigiana", price: "€10,00", desc: "Traditional layered fried eggplants with tomato sauce, melted provola cheese, and fresh basil." },
+        { name: "Braised Beef Cheek", price: "€11,00", desc: "Melt-in-your-mouth beef cheek, slow-cooked for hours in its own rich red wine reduction." }
+      ],
+      primi: [
+        { name: "Risotto alla Nerano", price: "€15,00 p.p.", desc: "Creamy risotto cooked with sweet zucchini, zucchini blossoms, and local Provolone del Monaco cheese (min. 2 persons)." },
+        { name: "Pici Cacio e Pepe with Crunchy Guanciale", price: "€15,00", desc: "Fresh pici pasta tossed with romano pecorino cheese, toasted black pepper, and crispy cured pork cheek strips." },
+        { name: "Linguine with roasted pepper cream", price: "€15,00", desc: "Linguine pasta tossed with sweet roasted bell pepper cream, Parmesan fondue, and crunchy Patanegra ham crumbs." },
+        { name: "Tordello ravioli filled with eggplant", price: "€18,00", desc: "Homemade ravioli pasta stuffed with seasoned eggplants, served in a rich fresh tomato sauce." },
+        { name: "Corteccia with lamb ragù", price: "€18,00", desc: "Traditional short pasta served with a rich, slow-braised pulled lamb ragù and smooth Parmesan cream." }
+      ],
+      secondi: [
+        { name: "Grilled Beef Fillet", price: "€30,00", desc: "Prime, tender cut of beef fillet cooked over high flames, served with a side dish of your choice." },
+        { name: "Sliced Beef (Tagliata)", price: "€25,00", desc: "Grilled domestic beef steak sliced and served over a bed of fresh rocket and sweet cherry tomatoes." },
+        { name: "Mixed Grilled Meat Platter", price: "€45,00", desc: "A generous selection of our finest cuts of meat expertly cooked over the open embers (perfect for sharing)." },
+        { name: "Pork Ribs cooked low & slow", price: "€20,00", desc: "Tender pork ribs cooked at low temperature, glazed in BBQ sauce, served with crispy roasted potatoes." },
+        { name: "Roast shoulder of lamb with potatoes", price: "€22,00", desc: "Slow-roasted traditional herb-infused lamb shoulder, served with crispy rosemary potatoes." }
+      ],
+      grigliate: [
+        { type: "promo", name: "Classic Grill Menu", price: "€35,00", desc: "Includes: 4 shared house starters + mixed grilled meat platter for the table with french fries. Water and cover charge included (valid for the whole table)." },
+        { type: "promo", name: "Deluxe Grill Menu", price: "€45,00", desc: "Includes: 4 shared house starters + 1Kg of premium meat selected from our display window with a side. Water and cover charge included (valid for the whole table)." }
+      ],
+      degustazione: [
+        { name: "Traditional Tasting Menu", price: "€40,00", desc: "A complete multi-course journey: one house starter, one first course, one second course, and dessert. (Valid for the whole table)." },
+        { name: "Tasting Menu & Wine Pairing", price: "€50,00", desc: "Our signature multi-course tasting menu paired with expertly selected glasses of wine from our cellar." }
+      ],
+      dolci: [
+        { name: "Babà with lemon cream", price: "€6,00", desc: "The iconic Neapolitan sponge cake soaked in premium rum, topped with fragrant local lemon cream." },
+        { name: "Salted Caramel Semifreddo", price: "€6,00", desc: "A velvety frozen dessert blending rich sweet caramel notes with a delicate touch of sea salt." },
+        { name: "Tartlet with apricot confit and fior di latte gelato", price: "€6,00", desc: "Crisp pastry shell filled with sweet caramelized apricots and fresh, creamy fior di latte ice cream." },
+        { name: "Classic Tiramisù", price: "€6,00", desc: "Layers of light whipped mascarpone cream and ladyfinger biscuits soaked in espresso coffee, dusted with cocoa." }
+      ]
+    }
+  }
+};
+
+let currentLang = 'it';
+
+function selectLanguage(lang) {
+  currentLang = lang;
+  
+  // 1. Aggiunge la classe per nascondere lo schermo lingua con effetto dissolvenza
+  document.getElementById('language-screen').classList.add('hidden');
+  
+  // 2. Rende visibile il contenitore principale del menu
+  document.getElementById('main-content').style.display = 'block';
+  
+  // 3. Traduce i testi fissi dell'interfaccia
+  document.getElementById('hero-tag').innerText = menuData[lang].heroTag;
+  document.getElementById('footer-welcome').innerText = menuData[lang].footerWelcome;
+  document.getElementById('footer-nfc').innerText = menuData[lang].footerNfc;
+  
+  // 4. Genera dinamicamente le categorie e i piatti
+  buildMenu();
+  
+  // 5. Mostra in automatico gli Antipasti come prima mini-pagina attiva
+  openPage('antipasti');
+}
+
+function buildMenu() {
+  const data = menuData[currentLang];
+  const nav = document.getElementById('main-nav');
+  const pagesContainer = document.getElementById('menu-pages');
+  
+  nav.innerHTML = '';
+  pagesContainer.innerHTML = '';
+  
+  // Ciclo per creare i pulsanti di navigazione e le mini-pagine
+  Object.keys(data.categories).forEach(catKey => {
+    // Creazione del Bottone della categoria nella barra in alto
+    const button = document.createElement('button');
+    button.className = 'pill';
+    button.setAttribute('onclick', `openPage('${catKey}')`);
+    button.innerText = data.categories[catKey];
+    nav.appendChild(button);
+    
+    // Creazione della mini-pagina
+    const pageDiv = document.createElement('div');
+    pageDiv.id = catKey;
+    pageDiv.className = 'page';
+    pageDiv.innerHTML = `<h2><span>//</span> ${data.categories[catKey]}</h2>`;
+    
+    // Generazione dei singoli piatti della categoria
+    data.items[catKey].forEach(item => {
+      if (item.type === 'promo') {
+        pageDiv.innerHTML += `
+          <div class="promo-box">
+            <div class="promo-title">
+              <span>${item.name}</span>
+              <span style="color:var(--accent-amber)">${item.price}</span>
+            </div>
+            <p class="desc" style="margin-top: 8px; color: #FFF;">${item.desc}</p>
+          </div>
+        `;
+      } else {
+        pageDiv.innerHTML += `
+          <div class="item">
+            <div class="row">
+              <div class="name">${item.name}</div>
+              <div class="price">${item.price}</div>
+            </div>
+            <p class="desc">${item.desc}</p>
+          </div>
+        `;
+      }
+    });
+    
+    // Bottone inferiore per chiudere la pagina e tornare su
+    pageDiv.innerHTML += `<button class="back-btn" onclick="closePages()">${data.backText}</button>`;
+    pagesContainer.appendChild(pageDiv);
+  });
+}
+
+function openPage(pageId) {
+  const pages = document.querySelectorAll('.page');
+  pages.forEach(page => page.classList.remove('active'));
+  
+  const pills = document.querySelectorAll('.pill');
+  pills.forEach(pill => pill.classList.remove('active'));
+  
+  const selectedPage = document.getElementById(pageId);
+  if (selectedPage) {
+    selectedPage.classList.add('active');
+    
+    const targetPill = Array.from(document.querySelectorAll('.pill')).find(pill => 
+      pill.getAttribute('onclick').includes(`'${pageId}'`)
+    );
+    if(targetPill) targetPill.classList.add('active');
+    
+    setTimeout(() => {
+      selectedPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+  }
+}
+
+function closePages() {
+  const pages = document.querySelectorAll('.page');
+  pages.forEach(page => page.classList.remove('active'));
+  
+  const pills = document.querySelectorAll('.pill');
+  pills.forEach(pill => pill.classList.remove('active'));
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
