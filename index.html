@@ -10,7 +10,7 @@
     body {
         margin: 0;
         font-family: 'Inter', sans-serif;
-        background: radial-gradient(circle at top, #7A1F2A 0%, #1E1E1E 70%);
+        background: linear-gradient(180deg, #1A1A1A 0%, #2A2A2A 100%);
         color: #F4F1EC;
     }
 
@@ -18,7 +18,7 @@
     .hero {
         position: relative;
         height: 45vh;
-        background: url('hero-vino.jpg') center/cover no-repeat;
+        background: url('hero-tavolo.jpg') center/cover no-repeat;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -27,24 +27,24 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: rgba(0,0,0,0.55);
-        backdrop-filter: blur(2px);
+        background: rgba(0,0,0,0.45);
+        backdrop-filter: blur(3px);
     }
     .hero img {
         position: relative;
         width: 180px;
-        filter: drop-shadow(0 0 12px #7A1F2A);
+        filter: drop-shadow(0 0 10px #C2A878);
     }
 
     /* HEADER */
     header {
         position: sticky;
         top: 0;
-        background: rgba(30,30,30,0.85);
-        backdrop-filter: blur(10px);
+        background: rgba(26,26,26,0.75);
+        backdrop-filter: blur(12px);
         padding: 10px;
         z-index: 999;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
     }
     .cat-scroll {
         display: flex;
@@ -55,12 +55,12 @@
     .cat-btn {
         flex: 0 0 auto;
         padding: 10px 18px;
-        background: #7A1F2A;
+        background: rgba(255,255,255,0.08);
         border-radius: 25px;
         font-weight: 600;
         cursor: pointer;
         white-space: nowrap;
-        border: 1px solid rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.12);
     }
 
     /* PANELS */
@@ -68,10 +68,10 @@
         display: none;
         padding: 25px;
         margin: 25px;
-        background: rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.06);
         border-radius: 18px;
-        backdrop-filter: blur(12px);
-        box-shadow: 0 0 25px rgba(0,0,0,0.4);
+        backdrop-filter: blur(14px);
+        box-shadow: 0 0 25px rgba(0,0,0,0.35);
     }
     .panel.active {
         display: block;
@@ -81,15 +81,20 @@
     .item {
         display: flex;
         justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .desc {
+        font-size: 0.85rem;
+        opacity: 0.8;
+        margin-top: 3px;
     }
 
     /* SUBCATEGORIES */
     .subcat-btn {
         padding: 8px 14px;
         background: #C2A878;
-        color: #1E1E1E;
+        color: #1A1A1A;
         border-radius: 20px;
         font-weight: 600;
         margin-right: 10px;
@@ -108,8 +113,10 @@
         text-align: center;
         padding: 30px;
         margin-top: 40px;
-        background: rgba(255,255,255,0.05);
-        border-top: 1px solid rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.04);
+        border-top: 1px solid rgba(255,255,255,0.08);
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
     }
 </style>
 
@@ -153,43 +160,99 @@ function showSub(id) {
 <!-- ANTIPASTI -->
 <div id="antipasti" class="panel active">
     <h2>Antipasti</h2>
-    <div class="item"><span>Selezione salumi e formaggi (x2)</span><span>25,00</span></div>
-    <div class="item"><span>Carpaccio Cecina de Leon</span><span>13,00</span></div>
-    <div class="item"><span>Tartare di manzo</span><span>12,00</span></div>
-    <div class="item"><span>Vitello tonnato</span><span>13,00</span></div>
-    <div class="item"><span>Parmigiana</span><span>10,00</span></div>
-    <div class="item"><span>Guancia brasata</span><span>11,00</span></div>
+
+    <div class="item">
+        <span>Selezione salumi e formaggi (x2)</span><span>25,00</span>
+    </div>
+    <div class="desc">Tagliere ricco con prodotti locali, stagionati e freschi, accompagnati da confetture artigianali.</div>
+
+    <div class="item">
+        <span>Carpaccio Cecina de Leon</span><span>13,00</span>
+    </div>
+    <div class="desc">Carne di manzo affumicata spagnola, tagliata fine, servita con olio EVO e pepe nero.</div>
+
+    <div class="item">
+        <span>Tartare di manzo</span><span>12,00</span>
+    </div>
+    <div class="desc">Battuta al coltello con condimento classico, uovo, senape e crostini.</div>
+
+    <div class="item">
+        <span>Vitello tonnato</span><span>13,00</span>
+    </div>
+    <div class="desc">Fettine di vitello cotto lentamente, salsa tonnata cremosa e capperi.</div>
+
+    <div class="item">
+        <span>Parmigiana</span><span>10,00</span>
+    </div>
+    <div class="desc">Melanzane fritte, pomodoro, basilico e mozzarella, gratinata al forno.</div>
+
+    <div class="item">
+        <span>Guancia brasata</span><span>11,00</span>
+    </div>
+    <div class="desc">Guancia di manzo cotta a bassa temperatura, morbida e saporita.</div>
 </div>
 
 <!-- PRIMI -->
 <div id="primi" class="panel">
     <h2>Primi</h2>
+
     <div class="item"><span>Risotto alla Nerano (min 2)</span><span>15,00 p.p.</span></div>
+    <div class="desc">Zucchine, provolone del Monaco, mantecatura cremosa.</div>
+
     <div class="item"><span>Pici cacio e pepe</span><span>15,00</span></div>
+    <div class="desc">Pasta toscana fatta a mano, pecorino romano e pepe nero.</div>
+
     <div class="item"><span>Linguine peperoni + Patanegra</span><span>15,00</span></div>
+    <div class="desc">Crema di peperoni dolci e scaglie di prosciutto Patanegra.</div>
+
     <div class="item"><span>Tordello melanzana</span><span>18,00</span></div>
+    <div class="desc">Pasta ripiena di melanzane affumicate e ricotta.</div>
+
     <div class="item"><span>Corteccia ragù agnello</span><span>18,00</span></div>
+    <div class="desc">Ragù di agnello cotto lentamente con erbe mediterranee.</div>
+
     <div class="item"><span>Lasagna coniglio</span><span>16,00</span></div>
+    <div class="desc">Sfoglia fresca, ragù bianco di coniglio, besciamella leggera.</div>
 </div>
 
 <!-- SECONDI -->
 <div id="secondi" class="panel">
     <h2>Secondi</h2>
+
     <div class="item"><span>Filetto di maiale</span><span>20,00</span></div>
+    <div class="desc">Cottura rosa, salsa al miele e senape.</div>
+
     <div class="item"><span>Ribs CBT</span><span>20,00</span></div>
+    <div class="desc">Costine di maiale cotte a bassa temperatura, glassate BBQ.</div>
+
     <div class="item"><span>Tagliata di manzo</span><span>25,00</span></div>
+    <div class="desc">Manzo selezionato, sale Maldon, rucola e scaglie di grana.</div>
+
     <div class="item"><span>Spalla di agnello</span><span>22,00</span></div>
+    <div class="desc">Agnello cotto lentamente con rosmarino e vino bianco.</div>
+
     <div class="item"><span>Filetto di manzo</span><span>30,00</span></div>
+    <div class="desc">Taglio premium, cottura perfetta, burro alle erbe.</div>
+
     <div class="item"><span>Grigliata mista (x2)</span><span>45,00</span></div>
+    <div class="desc">Selezione di carni alla brace, verdure grigliate.</div>
 </div>
 
 <!-- SPECIALI -->
 <div id="speciali" class="panel">
     <h2>Menù Speciali</h2>
+
     <div class="item"><span>Grigliata Classic</span><span>35,00</span></div>
+    <div class="desc">Mix di carni selezionate alla brace.</div>
+
     <div class="item"><span>Grigliata Deluxe</span><span>45,00</span></div>
+    <div class="desc">Tagli premium, cotture lente e brace.</div>
+
     <div class="item"><span>Degustazione</span><span>40,00</span></div>
+    <div class="desc">Percorso di 4 portate selezionate dallo chef.</div>
+
     <div class="item"><span>Degustazione</span><span>50,00</span></div>
+    <div class="desc">Percorso di 5 portate con selezione vini.</div>
 </div>
 
 <!-- BIBITE -->
@@ -212,9 +275,16 @@ function showSub(id) {
 <div id="dolci" class="panel">
     <h2>Dolci</h2>
     <div class="item"><span>Babà crema limone</span><span>6,00</span></div>
+    <div class="desc">Babà soffice con crema al limone fresco.</div>
+
     <div class="item"><span>Semifreddo caramello salato</span><span>6,00</span></div>
+    <div class="desc">Crema fredda al caramello con sale Maldon.</div>
+
     <div class="item"><span>Tartelletta albicocca + gelato</span><span>6,00</span></div>
+    <div class="desc">Base croccante, confettura di albicocca, gelato artigianale.</div>
+
     <div class="item"><span>Tiramisù</span><span>6,00</span></div>
+    <div class="desc">Ricetta classica con mascarpone fresco.</div>
 </div>
 
 <!-- APERITIVI -->
@@ -238,7 +308,6 @@ function showSub(id) {
     <button class="subcat-btn" onclick="showSub('vini-rosati')">Rosati</button>
     <button class="subcat-btn" onclick="showSub('vini-rossi')">Rossi</button>
     <button class="subcat-btn" onclick="showSub('vini-bollicine')">Bollicine</button>
-    <button class="subcat-btn" onclick="showSub('vini-champagne')">Champagne</button>
 
     <!-- BIANCHI -->
     <div id="vini-bianchi" class="subcat-panel active">
@@ -275,13 +344,6 @@ function showSub(id) {
         <div class="item"><span>Prosecco di Valdobbiadene</span><span>25,00</span></div>
     </div>
 
-    <!-- CHAMPAGNE -->
-    <div id="vini-champagne" class="subcat-panel">
-        <h3>Champagne</h3>
-        <div class="item"><span>Blanc De Blancs Grand Cru (Bruno Paillard)</span><span>140,00</span></div>
-        <div class="item"><span>Louise Brochet Brut</span><span>60,00</span></div>
-        <div class="item"><span>Marie Le Brune Blanc de Blanc</span><span>55,00</span></div>
-    </div>
 </div>
 
 <footer>
