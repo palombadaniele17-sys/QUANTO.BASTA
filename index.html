@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quanto Basta — Menù</title>
+<title>Quanto Basta — Menu</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
     body {
         margin: 0;
         font-family: 'Inter', sans-serif;
-        background: linear-gradient(180deg, #1A1A1A 0%, #2A2A2A 100%);
+        background: #1A1A1A;
         color: #F4F1EC;
     }
 
@@ -36,6 +36,7 @@
         position: relative;
         font-size: 2.2rem;
         letter-spacing: 1px;
+        text-align: center;
     }
     .lang-btn {
         position: relative;
@@ -46,12 +47,13 @@
         font-size: 1.2rem;
         cursor: pointer;
         backdrop-filter: blur(10px);
+        color: #fff;
     }
 
     /* HERO */
     .hero {
         position: relative;
-        height: 45vh;
+        height: 40vh;
         background: url('https://copilot.microsoft.com/th/id/BCO.b8c44d97-33c7-49a3-b54a-48e19faef60a.png') center/cover no-repeat;
         display: flex;
         align-items: center;
@@ -70,38 +72,34 @@
         filter: drop-shadow(0 0 10px #C2A878);
     }
 
-    /* HEADER */
-    header {
-        position: sticky;
-        top: 0;
-        background: rgba(26,26,26,0.75);
-        backdrop-filter: blur(12px);
-        padding: 10px;
-        z-index: 999;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .cat-scroll {
+    /* TABS */
+    .tabs {
         display: flex;
         overflow-x: auto;
+        background: rgba(255,255,255,0.05);
+        padding: 10px;
         gap: 10px;
-        padding-bottom: 5px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-    .cat-btn {
-        flex: 0 0 auto;
-        padding: 10px 18px;
+    .tab-btn {
+        padding: 10px 20px;
         background: rgba(255,255,255,0.08);
         border-radius: 25px;
-        font-weight: 600;
         cursor: pointer;
         white-space: nowrap;
-        border: 1px solid rgba(255,255,255,0.12);
+        font-weight: 600;
+        border: 1px solid rgba(255,255,255,0.15);
+    }
+    .tab-btn.active {
+        background: #C2A878;
+        color: #1A1A1A;
     }
 
     /* PANELS */
     .panel {
         display: none;
         padding: 25px;
-        margin: 25px;
+        margin: 20px;
         background: rgba(255,255,255,0.06);
         border-radius: 18px;
         backdrop-filter: blur(14px);
@@ -124,35 +122,6 @@
         margin-top: 3px;
     }
 
-    /* SUBCATEGORIES */
-    .subcat-btn {
-        padding: 8px 14px;
-        background: #C2A878;
-        color: #1A1A1A;
-        border-radius: 20px;
-        font-weight: 600;
-        margin-right: 10px;
-        cursor: pointer;
-    }
-    .subcat-panel {
-        display: none;
-        margin-top: 20px;
-    }
-    .subcat-panel.active {
-        display: block;
-    }
-
-    /* FOOTER */
-    footer {
-        text-align: center;
-        padding: 30px;
-        margin-top: 40px;
-        background: rgba(255,255,255,0.04);
-        border-top: 1px solid rgba(255,255,255,0.08);
-        font-size: 0.9rem;
-        letter-spacing: 0.5px;
-    }
-
     /* HIDE MENUS INITIALLY */
     #menu-it, #menu-en {
         display: none;
@@ -166,14 +135,11 @@ function chooseLang(lang) {
     if(lang === 'en') document.getElementById('menu-en').style.display = 'block';
 }
 
-function showPanel(id, menu) {
+function openTab(menu, tabId) {
     document.querySelectorAll(`#${menu} .panel`).forEach(p => p.classList.remove('active'));
-    document.querySelector(`#${menu} #${id}`).classList.add('active');
-}
-
-function showSub(id, menu) {
-    document.querySelectorAll(`#${menu} .subcat-panel`).forEach(s => s.classList.remove('active'));
-    document.querySelector(`#${menu} #${id}`).classList.add('active');
+    document.querySelectorAll(`#${menu} .tab-btn`).forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    document.querySelector(`#${menu} .tab-btn[data-tab="${tabId}"]`).classList.add('active');
 }
 </script>
 </head>
@@ -185,477 +151,362 @@ function showSub(id, menu) {
     <button class="lang-btn" onclick="chooseLang('it')">Italiano</button>
     <button class="lang-btn" onclick="chooseLang('en')">English</button>
 </div>
-
 <!-- MENU ITALIANO -->
 <div id="menu-it">
+
     <div class="hero">
         <img src="logo-qb.png" alt="QB Logo">
     </div>
 
-    <header>
-        <div class="cat-scroll">
-            <div class="cat-btn" onclick="showPanel('antipasti-it','menu-it')">Antipasti</div>
-            <div class="cat-btn" onclick="showPanel('primi-it','menu-it')">Primi</div>
-            <div class="cat-btn" onclick="showPanel('secondi-it','menu-it')">Secondi</div>
-            <div class="cat-btn" onclick="showPanel('dolci-it','menu-it')">Dolci</div>
-            <div class="cat-btn" onclick="showPanel('speciali-it','menu-it')">Menù Speciali</div>
-            <div class="cat-btn" onclick="showPanel('aperitivi-it','menu-it')">Aperitivi</div>
-            <div class="cat-btn" onclick="showPanel('bibite-it','menu-it')">Bibite</div>
-            <div class="cat-btn" onclick="showPanel('birre-it','menu-it')">Birre</div>
-            <div class="cat-btn" onclick="showPanel('finepasto-it','menu-it')">Fine pasto</div>
-            <div class="cat-btn" onclick="showPanel('vini-it','menu-it')">Vini</div>
-        </div>
-    </header>
+    <!-- TABS IT -->
+    <div class="tabs">
+        <div class="tab-btn active" data-tab="it-antipasti" onclick="openTab('menu-it','it-antipasti')">Antipasti</div>
+        <div class="tab-btn" data-tab="it-primi" onclick="openTab('menu-it','it-primi')">Primi</div>
+        <div class="tab-btn" data-tab="it-secondi" onclick="openTab('menu-it','it-secondi')">Secondi</div>
+        <div class="tab-btn" data-tab="it-dolci" onclick="openTab('menu-it','it-dolci')">Dolci</div>
+        <div class="tab-btn" data-tab="it-speciali" onclick="openTab('menu-it','it-speciali')">Menù Speciali</div>
+        <div class="tab-btn" data-tab="it-aperitivi" onclick="openTab('menu-it','it-aperitivi')">Aperitivi</div>
+        <div class="tab-btn" data-tab="it-bibite" onclick="openTab('menu-it','it-bibite')">Bibite</div>
+        <div class="tab-btn" data-tab="it-birre" onclick="openTab('menu-it','it-birre')">Birre</div>
+        <div class="tab-btn" data-tab="it-finepasto" onclick="openTab('menu-it','it-finepasto')">Fine pasto</div>
+        <div class="tab-btn" data-tab="it-vini" onclick="openTab('menu-it','it-vini')">Vini</div>
+    </div>
 
-    <!-- ANTIPASTI IT -->
-    <div id="antipasti-it" class="panel active">
+    <!-- ANTIPASTI -->
+    <div id="it-antipasti" class="panel active">
         <h2>Antipasti</h2>
 
-        <div class="item">
-            <span>Selezione mista di salumi e formaggi (per due persone)</span><span>25,00</span>
-        </div>
-        <div class="desc">
-            Mix di salumi e formaggi locali, accompagnati da pane caldo e confetture artigianali.
-        </div>
+        <div class="item"><span>Selezione mista di salumi e formaggi (per due persone)</span><span>25,00</span></div>
+        <div class="desc">Mix cold cuts and cheese (for 2 person)</div>
 
-        <div class="item">
-            <span>Carpaccio affumicato “Cecina de Leon” con insalatina verde e pomodorini</span><span>13,00</span>
-        </div>
-        <div class="desc">
-            Carpaccio di manzo affumicato, servito con insalatina fresca e pomodorini.
-        </div>
+        <div class="item"><span>Carpaccio affumicato “Cecina de Leon” con insalatina verde e pomodorini</span><span>13,00</span></div>
+        <div class="desc">Beef carpaccio with green salad and tomatoes</div>
 
-        <div class="item">
-            <span>Tartare di manzo con pomodori di Sorrento e mousse di formaggio caprino</span><span>12,00</span>
-        </div>
-        <div class="desc">
-            Tartare di manzo con pomodori di Sorrento e mousse di caprino.
-        </div>
+        <div class="item"><span>Tartare di manzo con pomodori di Sorrento e mousse di formaggio caprino</span><span>12,00</span></div>
+        <div class="desc">Beef tartare with Sorrento tomatoes and cheese mousse</div>
 
-        <div class="item">
-            <span>Vitello tonnato</span><span>13,00</span>
-        </div>
-        <div class="desc">
-            Fettine di vitello con salsa tonnata cremosa.
-        </div>
+        <div class="item"><span>Vitello tonnato</span><span>13,00</span></div>
+        <div class="desc">Veal carpaccio with tuna sauce</div>
 
-        <div class="item">
-            <span>La nostra Parmigiana</span><span>10,00</span>
-        </div>
-        <div class="desc">
-            Parmigiana di melanzane con pomodoro, mozzarella e basilico.
-        </div>
+        <div class="item"><span>La nostra Parmigiana</span><span>10,00</span></div>
+        <div class="desc">Eggplant Parmigiana (eggplant, tomato sauce, mozzarella and basil)</div>
 
-        <div class="item">
-            <span>Guancia brasata</span><span>11,00</span>
-        </div>
-        <div class="desc">
-            Guancia di manzo brasata lentamente.
-        </div>
+        <div class="item"><span>Guancia brasata</span><span>11,00</span></div>
+        <div class="desc">Braised cheek</div>
     </div>
 
-    <!-- PRIMI IT -->
-    <div id="primi-it" class="panel">
+    <!-- PRIMI -->
+    <div id="it-primi" class="panel">
         <h2>Primi</h2>
 
-        <div class="item">
-            <span>Risotto alla Nerano con Provolone Del Monaco (min per 2 persone)</span><span>15,00 a persona</span>
-        </div>
-        <div class="desc">
-            Risotto con zucchine e Provolone del Monaco.
-        </div>
+        <div class="item"><span>Risotto alla Nerano con Provolone Del Monaco (min per 2 persone)</span><span>15,00 a persona</span></div>
+        <div class="desc">Nerano-style risotto (courgettes and Provolone del Monaco cheese)</div>
 
-        <div class="item">
-            <span>Pici cacio e pepe con guanciale croccante di cinta senese</span><span>15,00</span>
-        </div>
-        <div class="desc">
-            Pici con crema di pecorino, pepe nero e guanciale croccante.
-        </div>
+        <div class="item"><span>Pici cacio e pepe con guanciale croccante di cinta senese</span><span>15,00</span></div>
+        <div class="desc">Pici pasta cheese and pepper and crunchy bacon</div>
 
-        <div class="item">
-            <span>Linguine con crema di peperoni arrosto, crumble di Patanegra e fonduta di parmigiano</span><span>15,00</span>
-        </div>
-        <div class="desc">
-            Linguine con crema di peperoni, Patanegra croccante e fonduta di parmigiano.
-        </div>
+        <div class="item"><span>Linguine con crema di peperoni arrosto, crumble di Patanegra e fonduta di parmigiano</span><span>15,00</span></div>
+        <div class="desc">Linguine with roasted pepper cream, Patanegra crumble and Parmesan fondue</div>
 
-        <div class="item">
-            <span>Tordello ripieno di melenzana con pomodorini gialli e rossi</span><span>18,00</span>
-        </div>
-        <div class="desc">
-            Ravioli ripieni di melanzane con pomodorini misti.
-        </div>
+        <div class="item"><span>Tordello ripieno di melenzana con pomodorini gialli e rossi</span><span>18,00</span></div>
+        <div class="desc">Ravioli with eggplant filling and tomato sauce</div>
 
-        <div class="item">
-            <span>Corteccia al ragù di agnello con fonduta al parmigiano</span><span>18,00</span>
-        </div>
-        <div class="desc">
-            Pasta corteccia con ragù di agnello e fonduta di parmigiano.
-        </div>
+        <div class="item"><span>Corteccia al ragù di agnello con fonduta al parmigiano</span><span>18,00</span></div>
+        <div class="desc">Corteccia pasta with lamb ragù and Parmesan fondue</div>
 
-        <div class="item">
-            <span>Sfoglie di lasagna al burro con ragù di coniglio e fonduta di parmigiano</span><span>16,00</span>
-        </div>
-        <div class="desc">
-            Lasagna destrutturata con ragù di coniglio e fonduta di parmigiano.
-        </div>
-    </div>
-<!-- SECONDI IT -->
-<div id="secondi-it" class="panel">
-    <h2>Secondi</h2>
-
-    <div class="item"><span>Filetto di maiale con scarole</span><span>20,00</span></div>
-    <div class="desc">Pork fillet with escarole.</div>
-
-    <div class="item"><span>Ribs in CBT con salsa BBQ e patate al forno</span><span>20,00</span></div>
-    <div class="desc">Pork ribs with BBQ sauce and baked potatoes.</div>
-
-    <div class="item"><span>Tagliata di manzo con rucola e pomodorini</span><span>25,00</span></div>
-    <div class="desc">Sliced beef with rocket salad and tomatoes.</div>
-
-    <div class="item"><span>Spalla di agnello arrosto con patate</span><span>22,00</span></div>
-    <div class="desc">Roast lamb shoulder with potatoes.</div>
-
-    <div class="item"><span>Filetto di manzo ai ferri con contorno a scelta</span><span>30,00</span></div>
-    <div class="desc">Beef fillet with side dish.</div>
-
-    <div class="item"><span>Grigliata mista di carne (x2 pax)</span><span>45,00</span></div>
-    <div class="desc">Mixed meat grill (for 2 pax).</div>
-
-    <div class="item"><span>La nostra selezione di carne dalla vetrina</span><span>—</span></div>
-    <div class="desc">Selection of meat from the showcase.</div>
-</div>
-
-<!-- DOLCI IT -->
-<div id="dolci-it" class="panel">
-    <h2>Dolci</h2>
-
-    <div class="item"><span>Baba con crema al limone</span><span>6,00</span></div>
-    <div class="desc">Baba with lemon cream.</div>
-
-    <div class="item"><span>Semifreddo al caramello salato</span><span>6,00</span></div>
-    <div class="desc">Salted caramel semifreddo.</div>
-
-    <div class="item"><span>Tartelletta con albicocca confit e gelato al fior di latte</span><span>6,00</span></div>
-    <div class="desc">Tartlet with apricot and vanilla ice cream.</div>
-
-    <div class="item"><span>Tiramisù</span><span>6,00</span></div>
-</div>
-
-<!-- SPECIALI IT -->
-<div id="speciali-it" class="panel">
-    <h2>Menù Speciali</h2>
-
-    <div class="item"><span>Menù grigliata Classic</span><span>35,00</span></div>
-    <div class="desc">
-        4 antipasti + grigliata mista di carne con patatine fritte.  
-        Acqua e coperto inclusi (per intero tavolo).
+        <div class="item"><span>Sfoglie di lasagna al burro con ragù di coniglio e fonduta di parmigiano</span><span>16,00</span></div>
+        <div class="desc">Deconstructed lasagna with rabbit ragù and Parmesan fondue</div>
     </div>
 
-    <div class="item"><span>Menù grigliata Deluxe</span><span>45,00</span></div>
-    <div class="desc">
-        4 antipasti + 1Kg di carne dalla vetrina con contorno.  
-        Acqua e coperto inclusi (per intero tavolo).
+    <!-- SECONDI -->
+    <div id="it-secondi" class="panel">
+        <h2>Secondi</h2>
+
+        <div class="item"><span>Filetto di maiale con scarole</span><span>20,00</span></div>
+        <div class="desc">Pork fillet with escarole</div>
+
+        <div class="item"><span>Ribs in CBT con salsa BBQ e patate al forno</span><span>20,00</span></div>
+        <div class="desc">Pork ribs with BBQ sauce and baked potatoes</div>
+
+        <div class="item"><span>Tagliata di manzo con rucola e pomodorini</span><span>25,00</span></div>
+        <div class="desc">Sliced beef with rocket salad and tomatoes</div>
+
+        <div class="item"><span>Spalla di agnello arrosto con patate</span><span>22,00</span></div>
+        <div class="desc">Roast lamb shoulder with potatoes</div>
+
+        <div class="item"><span>Filetto di manzo ai ferri con contorno a scelta</span><span>30,00</span></div>
+        <div class="desc">Beef fillet</div>
+
+        <div class="item"><span>Grigliata mista di carne (x2 pax)</span><span>45,00</span></div>
+        <div class="desc">Mix grill (for 2 pax)</div>
+
+        <div class="item"><span>La nostra selezione di carne dalla vetrina</span><span>—</span></div>
+        <div class="desc">Selection of meat from the showcase</div>
     </div>
 
-    <div class="item"><span>Menù degustazione “Quanto Basta per star bene”</span><span>40,00</span></div>
-    <div class="desc">
-        Antipasto + Primo + Secondo + Dolce.  
-        Degustazione per tavolo intero, bibite escluse.
+    <!-- DOLCI -->
+    <div id="it-dolci" class="panel">
+        <h2>Dolci</h2>
+
+        <div class="item"><span>Baba con crema al limone</span><span>6,00</span></div>
+        <div class="desc">Baba with lemon cream</div>
+
+        <div class="item"><span>Semifreddo al caramello salato</span><span>6,00</span></div>
+        <div class="desc">Salted caramel semifreddo</div>
+
+        <div class="item"><span>Tartelletta con albicocca confit e gelato al fior di latte</span><span>6,00</span></div>
+        <div class="desc">Tartlet with apricot and vanilla ice cream</div>
+
+        <div class="item"><span>Tiramisù</span><span>6,00</span></div>
     </div>
 
-    <div class="item"><span>Menù degustazione</span><span>50,00</span></div>
-    <div class="desc">
-        2 Antipasti + Primo + Secondo + Dolce.  
-        Degustazione per tavolo intero, bibite escluse.
+    <!-- MENÙ SPECIALI -->
+    <div id="it-speciali" class="panel">
+        <h2>Menù Speciali</h2>
+
+        <div class="item"><span>Menù grigliata Classic</span><span>35,00</span></div>
+        <div class="desc">4 antipasti + grigliata mista di carne con patatine fritte. Acqua e coperto inclusi.</div>
+
+        <div class="item"><span>Menù grigliata Deluxe</span><span>45,00</span></div>
+        <div class="desc">4 antipasti + 1Kg di carne dalla vetrina con contorno. Acqua e coperto inclusi.</div>
+
+        <div class="item"><span>Menù degustazione “Quanto Basta per star bene”</span><span>40,00</span></div>
+        <div class="desc">Antipasto + Primo + Secondo + Dolce. Degustazione per tavolo intero.</div>
+
+        <div class="item"><span>Menù degustazione</span><span>50,00</span></div>
+        <div class="desc">2 Antipasti + Primo + Secondo + Dolce. Degustazione per tavolo intero.</div>
     </div>
-</div>
 
-<!-- APERITIVI IT -->
-<div id="aperitivi-it" class="panel">
-    <h2>Aperitivi</h2>
+    <!-- APERITIVI -->
+    <div id="it-aperitivi" class="panel">
+        <h2>Aperitivi</h2>
 
-    <div class="item"><span>Aperol Spritz</span><span>10,00</span></div>
-    <div class="item"><span>Campari Spritz</span><span>10,00</span></div>
-    <div class="item"><span>Negroni</span><span>10,00</span></div>
-    <div class="item"><span>Negroni Sbagliato</span><span>10,00</span></div>
-    <div class="item"><span>Gin Tonic</span><span>10,00</span></div>
-    <div class="item"><span>Gin Lemon</span><span>10,00</span></div>
-    <div class="item"><span>Vodka Tonic</span><span>10,00</span></div>
-    <div class="item"><span>Vodka Lemon</span><span>10,00</span></div>
-</div>
+        <div class="item"><span>Aperol Spritz</span><span>10,00</span></div>
+        <div class="item"><span>Campari Spritz</span><span>10,00</span></div>
+        <div class="item"><span>Negroni</span><span>10,00</span></div>
+        <div class="item"><span>Negroni sbagliato</span><span>10,00</span></div>
+        <div class="item"><span>Gin tonic</span><span>10,00</span></div>
+        <div class="item"><span>Gin lemon</span><span>10,00</span></div>
+        <div class="item"><span>Vodka tonic</span><span>10,00</span></div>
+        <div class="item"><span>Vodka lemon</span><span>10,00</span></div>
+    </div>
 
-<!-- BIBITE IT -->
-<div id="bibite-it" class="panel">
-    <h2>Bibite</h2>
+    <!-- BIBITE -->
+    <div id="it-bibite" class="panel">
+        <h2>Bibite</h2>
 
-    <div class="item"><span>Acqua Electa Ferrarelle 0,75</span><span>2,50</span></div>
-    <div class="item"><span>Acqua Ferrarelle 0,75</span><span>2,50</span></div>
-    <div class="item"><span>Coca Cola</span><span>2,50</span></div>
-    <div class="item"><span>Coca Cola Zero</span><span>2,50</span></div>
-</div>
+        <div class="item"><span>Acqua Electa Ferrarelle 0,75</span><span>2,50</span></div>
+        <div class="item"><span>Acqua Ferrarelle 0,75</span><span>2,50</span></div>
+        <div class="item"><span>Coca Cola</span><span>2,50</span></div>
+        <div class="item"><span>Coca Cola zero</span><span>2,50</span></div>
+    </div>
 
-<!-- BIRRE IT -->
-<div id="birre-it" class="panel">
-    <h2>Birra artigianale “Birrai Vesuviani”</h2>
+    <!-- BIRRE -->
+    <div id="it-birre" class="panel">
+        <h2>Birra artigianale “Birrai Vesuviani”</h2>
 
-    <div class="item"><span>Bionda Golden / Bionda IPA / Rossa 33cl</span><span>6,00</span></div>
-    <div class="item"><span>Bionda / Rossa 75cl</span><span>15,00</span></div>
-</div>
+        <div class="item"><span>Bionda Golden / Bionda IPA / Rossa 33cl</span><span>6,00</span></div>
+        <div class="item"><span>Bionda / Rossa 75cl</span><span>15,00</span></div>
+    </div>
 
-<!-- FINE PASTO IT -->
-<div id="finepasto-it" class="panel">
-    <h2>Fine pasto</h2>
+    <!-- FINE PASTO -->
+    <div id="it-finepasto" class="panel">
+        <h2>Fine pasto</h2>
 
-    <div class="item"><span>Whisky Laphroaig Quarter Cask</span><span>8,00</span></div>
-    <div class="item"><span>Whisky Johnnie Walker Black 12 anni</span><span>6,00</span></div>
-    <div class="item"><span>Cognac Francois Peyrot</span><span>6,00</span></div>
-    <div class="item"><span>Cognac Hennessy V.S.</span><span>7,00</span></div>
-    <div class="item"><span>Grappa bianca Berta</span><span>5,00</span></div>
-    <div class="item"><span>Grappa barricata Berta</span><span>5,00</span></div>
-    <div class="item"><span>Rum agricolo J Bally</span><span>6,00</span></div>
-    <div class="item"><span>Rum Don Papa 7 anni</span><span>7,00</span></div>
-    <div class="item"><span>Rum Diplomatico Reserva Exclusiva</span><span>7,00</span></div>
-    <div class="item"><span>Passito di Pantelleria Ben Ryé Donnafugata</span><span>8,00</span></div>
-    <div class="item"><span>Passito di Pantelleria Pellegrino</span><span>5,00</span></div>
-    <div class="item"><span>Vin pepato Elisir delle Crete Francini Naldi</span><span>6,00</span></div>
-    <div class="item"><span>Porto Graham 10 anni</span><span>7,00</span></div>
-    <div class="item"><span>Limoncello</span><span>4,00</span></div>
-    <div class="item"><span>Meloncello</span><span>4,00</span></div>
-    <div class="item"><span>Liquirizia</span><span>4,00</span></div>
-    <div class="item"><span>Jagermeister</span><span>5,00</span></div>
-    <div class="item"><span>Jefferson</span><span>6,00</span></div>
-    <div class="item"><span>Amaro del Capo</span><span>5,00</span></div>
-</div>
+        <div class="item"><span>Whisky Laphroaig Quarter Cask</span><span>8,00</span></div>
+        <div class="item"><span>Whisky Johnnie Walker black 12 anni</span><span>6,00</span></div>
+        <div class="item"><span>Cognac Francois Peyrot</span><span>6,00</span></div>
+        <div class="item"><span>Cognac Hennessy V.S.</span><span>7,00</span></div>
+        <div class="item"><span>Grappa bianca Berta</span><span>5,00</span></div>
+        <div class="item"><span>Grappa barricata Berta</span><span>5,00</span></div>
+        <div class="item"><span>Rum agricolo J Bally</span><span>6,00</span></div>
+        <div class="item"><span>Rum Don Papa 7 anni</span><span>7,00</span></div>
+        <div class="item"><span>Rum diplomatico reserva exclusiva</span><span>7,00</span></div>
+        <div class="item"><span>Passito di Pantelleria Ben Rye Donnafugata</span><span>8,00</span></div>
+        <div class="item"><span>Passito di Pantelleria Pellegrino</span><span>5,00</span></div>
+        <div class="item"><span>Vin pepato Elisir delle crete Francini Naldi</span><span>6,00</span></div>
+        <div class="item"><span>Porto Graham 10 anni</span><span>7,00</span></div>
+        <div class="item"><span>Limoncello</span><span>4,00</span></div>
+        <div class="item"><span>Meloncello</span><span>4,00</span></div>
+        <div class="item"><span>Liquirizia</span><span>4,00</span></div>
+        <div class="item"><span>Jagermeister</span><span>5,00</span></div>
+        <div class="item"><span>Jefferson</span><span>6,00</span></div>
+        <div class="item"><span>Amaro del Capo</span><span>5,00</span></div>
+    </div>
 
-<!-- VINI IT -->
-<div id="vini-it" class="panel">
-    <h2>Vini</h2>
+    <!-- VINI -->
+    <div id="it-vini" class="panel">
+        <h2>Vini</h2>
 
-    <!-- CHAMPAGNE -->
-    <h3>Champagne</h3>
-    <div class="item"><span>Champagne Blanc De Blancs Grand Cru (Bruno Paillard)</span><span>140,00</span></div>
-    <div class="item"><span>Champagne Louise Brochet brut</span><span>60,00</span></div>
-    <div class="item"><span>Champagne Marie le Brune blanc de blanc</span><span>55,00</span></div>
+        <h3>Champagne</h3>
+        <div class="item"><span>Champagne Blanc De Blancs Grand Cru (Bruno Paillard)</span><span>140,00</span></div>
+        <div class="item"><span>Champagne Louise Brochet brut</span><span>60,00</span></div>
+        <div class="item"><span>Champagne Marie le Brune blanc de blanc</span><span>55,00</span></div>
 
-    <!-- BOLLICINE -->
-    <h3>Bollicine</h3>
-    <div class="item"><span>Blanquette de Limoux Dauteville (Pierre Candeval)</span><span>25,00</span></div>
-    <div class="item"><span>Prosecco di Valdobbiadene</span><span>25,00</span></div>
+        <h3>Bollicine</h3>
+        <div class="item"><span>Blanquette de Limoux Dauteville (Pierre Candeval)</span><span>25,00</span></div>
+        <div class="item"><span>Prosecco di Valdobbiadene</span><span>25,00</span></div>
 
-    <!-- BIANCHI -->
-    <h3>Vini Bianchi</h3>
-    <div class="item"><span>Pinot Grigio Livio Felluga 2022</span><span>42,00</span></div>
-    <div class="item"><span>Chardonnay Livio Felluga 2022</span><span>42,00</span></div>
-    <div class="item"><span>Gewurztraminer</span><span>20,00</span></div>
-    <div class="item"><span>Fiano di Avellino DOCG Colli di Lapio (Romano Clelia)</span><span>30,00</span></div>
-    <div class="item"><span>Greco di Tufo Vigna Cicogna (Benito Ferrara)</span><span>35,00</span></div>
-    <div class="item"><span>Falanghina del Sannio DOP (Fattoria La Rivolta)</span><span>20,00</span></div>
+        <h3>Vini bianchi</h3>
+        <div class="item"><span>Pinot grigio Livio Felluga 2022</span><span>42,00</span></div>
+        <div class="item"><span>Chardonnay Livio Felluga 2022</span><span>42,00</span></div>
+        <div class="item"><span>Gewurztraminer</span><span>20,00</span></div>
+        <div class="item"><span>Fiano di Avellino DOCG Colli di Lapio (Romano Clelia)</span><span>30,00</span></div>
+        <div class="item"><span>Greco di Tufo Vigna Cicogna (Benito Ferrara)</span><span>35,00</span></div>
+        <div class="item"><span>Falanghina del Sannio dop (Fattoria La Rivolta)</span><span>20,00</span></div>
 
-    <!-- ROSATI -->
-    <h3>Vini Rosati</h3>
-    <div class="item"><span>Vetere (San Salvatore)</span><span>30,00</span></div>
-    <div class="item"><span>Lumera (Donnafugata)</span><span>25,00</span></div>
+        <h3>Vini rosati</h3>
+        <div class="item"><span>Vetere (San Salvatore)</span><span>30,00</span></div>
+        <div class="item"><span>Lumera (Donnafugata)</span><span>25,00</span></div>
 
-    <!-- ROSSI -->
-    <h3>Vini Rossi</h3>
+        <h3>Vini rossi</h3>
 
-    <h4>Francia</h4>
-    <div class="item"><span>Château Tour de Perrigal Bordeaux Supérieur 2021 AOP</span><span>20,00</span></div>
-    <div class="item"><span>Château Sergant Cuvée La Rivière Bordeaux 2021 AOP</span><span>48,00</span></div>
-    <div class="item"><span>Pierre André Pinot Noir Vieilles Vignes Bourgogne</span><span>35,00</span></div>
+        <h4>Francia</h4>
+        <div class="item"><span>Château Tour de Perrigal bordeaux superiore 2021 aop</span><span>20,00</span></div>
+        <div class="item"><span>Château Sergant cuvée La Rivière bordeaux 2021 aop</span><span>48,00</span></div>
+        <div class="item"><span>Pierre Andrè Pinot Noir Vielles Vignes bourgogne</span><span>35,00</span></div>
 
-    <h4>Piemonte</h4>
-    <div class="item"><span>Barolo Ceretto 2017</span><span>100,00</span></div>
-    <div class="item"><span>Barolo Ornato Pio Cesare 2017</span><span>120,00</span></div>
-    <div class="item"><span>Barolo Le Cinque Vigne (Damilano)</span><span>65,00</span></div>
-    <div class="item"><span>Barbaresco Bruno Rocca</span><span>80,00</span></div>
-    <div class="item"><span>Dolcetto d’Alba (Damilano)</span><span>28,00</span></div>
-    <div class="item"><span>Nebbiolo “Marghe” (Damilano)</span><span>35,00</span></div>
-    <div class="item"><span>Barbera d’Alba DOC Piana 2021 (Ceretto)</span><span>32,00</span></div>
-    <div class="item"><span>Barbera d’Asti (Damilano)</span><span>25,00</span></div>
+             <h4>Piemonte</h4>
+        <div class="item"><span>Barolo Ceretto 2017</span><span>100,00</span></div>
+        <div class="item"><span>Barolo Ornato’ Pio Cesare 2017</span><span>120,00</span></div>
+        <div class="item"><span>Barolo Le Cinque Vigne (Damilano)</span><span>65,00</span></div>
+        <div class="item"><span>Barbaresco Bruno Rocca</span><span>80,00</span></div>
+        <div class="item"><span>Dolcetto d’Alba (Damilano)</span><span>28,00</span></div>
+        <div class="item"><span>Nebbiolo “Marghe” (Damilano)</span><span>35,00</span></div>
+        <div class="item"><span>Barbera d’Alba doc Piana 2021 (Ceretto)</span><span>32,00</span></div>
+        <div class="item"><span>Barbera d’Asti (Damilano)</span><span>25,00</span></div>
 
-    <h4>Veneto</h4>
-    <div class="item"><span>Amarone della Valpolicella DOCG (Bertani)</span><span>70,00</span></div>
-    <div class="item"><span>Amarone Costasera Valpolicella 2016 (Masi)</span><span>60,00</span></div>
-    <div class="item"><span>Valpolicella DOC (Masi)</span><span>25,00</span></div>
-    <div class="item"><span>Valpolicella Ripasso (Costa Arente)</span><span>30,00</span></div>
+        <h4>Veneto</h4>
+        <div class="item"><span>Amarone della Valpolicella DOCG (Bertani)</span><span>70,00</span></div>
+        <div class="item"><span>Amarone Costasera Valpolicella 2016 (Masi)</span><span>60,00</span></div>
+        <div class="item"><span>Valpolicella doc (Masi)</span><span>25,00</span></div>
+        <div class="item"><span>Valpolicella Ripasso (Costa Arente)</span><span>30,00</span></div>
 
-    <h4>Friuli Venezia Giulia</h4>
-    <div class="item"><span>Merlot IGT (Alturis)</span><span>20,00</span></div>
+        <h4>Friuli Venezia Giulia</h4>
+        <div class="item"><span>Merlot igt (Alturis)</span><span>20,00</span></div>
 
-    <h4>Toscana</h4>
-    <div class="item"><span>Brunello di Montalcino 2020 (Marchesi Antinori)</span><span>83,00</span></div>
-    <div class="item"><span>Brunello di Montalcino (Tenuta La Fuga)</span><span>50,00</span></div>
-    <div class="item"><span>Il Bruciato (Guado al Tasso)</span><span>40,00</span></div>
-    <div class="item"><span>Chianti Classico Magnum (Castellina)</span><span>100,00</span></div>
-    <div class="item"><span>Chianti (Frescobaldi)</span><span>20,00</span></div>
-    <div class="item"><span>Chianti Classico DOCG Peppoli (Marchesi Antinori)</span><span>35,00</span></div>
-    <div class="item"><span>Toscana IGT Tignanello 2020 (Marchesi Antinori)</span><span>300,00</span></div>
-    <div class="item"><span>Sassicaia 2019 (Tenuta San Guido)</span><span>500,00</span></div>
-    <div class="item"><span>Rosso di Montalcino DOC 2021 (Mastrojanni)</span><span>45,00</span></div>
-    <div class="item"><span>Rosso Toscana IGT San Pio (Mastrojanni)</span><span>40,00</span></div>
-    <div class="item"><span>Guida Alberto Bolgheri (Tenuta San Guido)</span><span>90,00</span></div>
-    <div class="item"><span>La Vite Lucente 2021 Magnum 1,5L (Frescobaldi)</span><span>130,00</span></div>
-    <div class="item"><span>Chianti Classico DOCG 2022 (Tenuta di Nozzole)</span><span>25,00</span></div>
+        <h4>Toscana</h4>
+        <div class="item"><span>Brunello di Montalcino 2020 (Marchesi Antinori)</span><span>83,00</span></div>
+        <div class="item"><span>Brunello di Montalcino (Tenuta la Fuga)</span><span>50,00</span></div>
+        <div class="item"><span>Il bruciato (Guado al Tasso)</span><span>40,00</span></div>
+        <div class="item"><span>Chianti classico magnum (Castellina)</span><span>100,00</span></div>
+        <div class="item"><span>Chianti (Frescobaldi)</span><span>20,00</span></div>
+        <div class="item"><span>Chianti classico DOCG Peppoli (Marchesi Antinori)</span><span>35,00</span></div>
+        <div class="item"><span>Toscana igt Tignanello 2020 (Marchesi Antinori)</span><span>300,00</span></div>
+        <div class="item"><span>Sassicaia 2019 (Tenuta San Guido)</span><span>500,00</span></div>
+        <div class="item"><span>Rosso di Montalcino doc 2021 (Mastrojanni)</span><span>45,00</span></div>
+        <div class="item"><span>Rosso Toscana igt San Pio (Mastrojanni)</span><span>40,00</span></div>
+        <div class="item"><span>Guida Alberto Bolgheri (Tenuta San Guido)</span><span>90,00</span></div>
+        <div class="item"><span>La vite lucente 2021 magnum 1,5l (Frescobaldi)</span><span>130,00</span></div>
+        <div class="item"><span>Chianti classico DOCG 2022 (Tenuta di Nozzole)</span><span>25,00</span></div>
 
-    <h4>Umbria e Marche</h4>
-    <div class="item"><span>Rosso di Montefalco DOC (Tenuta Baldo)</span><span>20,00</span></div>
-    <div class="item"><span>Otto Borghi (CasalFarneto)</span><span>22,00</span></div>
+        <h4>Umbria e Marche</h4>
+        <div class="item"><span>Rosso di Montefalco doc (Tenuta Baldo)</span><span>20,00</span></div>
+        <div class="item"><span>Otto Borghi (CasalFarneto)</span><span>22,00</span></div>
 
-    <h4>Puglia</h4>
-    <div class="item"><span>Primitivo di Manduria Talò (Feudi di San Marzano)</span><span>25,00</span></div>
-    <div class="item"><span>Primitivo 60 anni (Feudi di San Marzano)</span><span>45,00</span></div>
-    <div class="item"><span>Il Fedale IGP Negramaro (Vespa)</span><span>25,00</span></div>
+        <h4>Puglia</h4>
+        <div class="item"><span>Primitivo di Manduria Talò (Feudi di San Marzano)</span><span>25,00</span></div>
+        <div class="item"><span>Primitivo 60 anni (Feudi di San Marzano)</span><span>45,00</span></div>
+        <div class="item"><span>Il Fedale igp Negramaro (Vespa)</span><span>25,00</span></div>
 
-    <h4>Campania e Basilicata</h4>
-    <div class="item"><span>Aglianico del Taburno 2019 (Fattoria La Rivolta)</span><span>25,00</span></div>
-    <div class="item"><span>Aglianico Jungano di San Salvatore 2020 (San Salvatore)</span><span>35,00</span></div>
-    <div class="item"><span>Campi Taurasini Donna Chiara DOC (Romano Clelia)</span><span>27,00</span></div>
-    <div class="item"><span>Sangue di Giuda (Vistarino)</span><span>20,00</span></div>
-    <div class="item"><span>Piedirosso del Taburno (Fattoria La Rivolta)</span><span>25,00</span></div>
-    <div class="item"><span>Lacryma Christi rosso del Vesuvio (Mastroberardino)</span><span>22,00</span></div>
-    <div class="item"><span>Taurasi Riserva (Sannino)</span><span>55,00</span></div>
-    <div class="item"><span>Taurasi Cinque Querce (Salvatore Molettieri)</span><span>75,00</span></div>
-    <div class="item"><span>Taurasi Radici DOCG (Mastroberardino)</span><span>50,00</span></div>
-    <div class="item"><span>Taurasi (Colli di Lapio)</span><span>60,00</span></div>
-    <div class="item"><span>Aglianico del Vulture L’Atto (Cantine del Notaio)</span><span>20,00</span></div>
-    <div class="item"><span>Aglianico Campania (Sannino)</span><span>20,00</span></div>
-    <div class="item"><span>Gragnano Penisola Sorrentina (Cantine Federiciane)</span><span>20,00</span></div>
-    <div class="item"><span>Lacryma Christi rosso del Vesuvio 375ml (Mastroberardino)</span><span>14,00</span></div>
-    <div class="item"><span>Aglianico Irpinia DOC 375ml (Mastroberardino)</span><span>14,00</span></div>
+        <h4>Campania e Basilicata</h4>
+        <div class="item"><span>Aglianico del Taburno 2019 (Fattoria la Rivolta)</span><span>25,00</span></div>
+        <div class="item"><span>Aglianico Jungano di San Salvatore 2020 (San Salvatore)</span><span>35,00</span></div>
+        <div class="item"><span>Campi taurasini Donna chiara doc (Romano Clelia)</span><span>27,00</span></div>
+        <div class="item"><span>Sangue di Giuda (Vistarino)</span><span>20,00</span></div>
+        <div class="item"><span>Piedirosso del Taburno (Fattoria la Rivolta)</span><span>25,00</span></div>
+        <div class="item"><span>Lacryma Christi rosso del Vesuvio (Mastroberardino)</span><span>22,00</span></div>
+        <div class="item"><span>Taurasi Riserva (Sannino)</span><span>55,00</span></div>
+        <div class="item"><span>Taurasi Cinque Querce (Salvatore Molettieri)</span><span>75,00</span></div>
+        <div class="item"><span>Taurasi Radici DOCG (Mastroberardino)</span><span>50,00</span></div>
+        <div class="item"><span>Taurasi (Colli di Lapio)</span><span>60,00</span></div>
+        <div class="item"><span>Aglianico del Vulture L’atto (Cantine del Notaio)</span><span>20,00</span></div>
+        <div class="item"><span>Aglianico Campania (Sannino)</span><span>20,00</span></div>
+        <div class="item"><span>Gragnano penisola sorrentina (Cantine Federiciane)</span><span>20,00</span></div>
+        <div class="item"><span>Lacryma Christi rosso del Vesuvio 375ml (Mastroberardino)</span><span>14,00</span></div>
+        <div class="item"><span>Aglianico Irpinia DOC 375ml (Mastroberardino)</span><span>14,00</span></div>
 
-    <h4>Sicilia e Sardegna</h4>
-    <div class="item"><span>Cabernet Sauvignon Camelot (Firriato)</span><span>45,00</span></div>
-    <div class="item"><span>Nero d’Avola Harmonium (Firriato)</span><span>45,00</span></div>
-    <div class="item"><span>Perricone Ribeca (Firriato)</span><span>45,00</span></div>
-    <div class="item"><span>Nero d’Avola Sant’Agostino (Firriato)</span><span>30,00</span></div>
-    <div class="item"><span>Nero d’Avola Sherazade (Donnafugata)</span><span>20,00</span></div>
-    <div class="item"><span>Etna Rosso (Firriato)</span><span>40,00</span></div>
-    <div class="item"><span>Etna Rosso (Donnafugata)</span><span>40,00</span></div>
-</div>
+        <h4>Sicilia e Sardegna</h4>
+        <div class="item"><span>Cabernet Sauvignon Camelot (Firriato)</span><span>45,00</span></div>
+        <div class="item"><span>Nero d’Avola Harmonium (Firriato)</span><span>45,00</span></div>
+        <div class="item"><span>Perricone ribeca (Firriato)</span><span>45,00</span></div>
+        <div class="item"><span>Nero d’Avola Sant’Agostino (Firriato)</span><span>30,00</span></div>
+        <div class="item"><span>Nero d’Avola Sherazade (Donnafugata)</span><span>20,00</span></div>
+        <div class="item"><span>Etna rosso (Firriato)</span><span>40,00</span></div>
+        <div class="item"><span>Etna rosso (Donnafugata)</span><span>40,00</span></div>
 
-<footer>
-    <p>Tradizione. Cura. Passione.</p>
-    <p>© Quanto Basta 2026</p>
-</footer>
+    </div> <!-- fine pannello vini IT -->
+
+</div> <!-- fine menu IT -->
 <!-- MENU ENGLISH -->
 <div id="menu-en">
+
     <div class="hero">
         <img src="logo-qb.png" alt="QB Logo">
     </div>
 
-    <header>
-        <div class="cat-scroll">
-            <div class="cat-btn" onclick="showPanel('starters-en','menu-en')">Starters</div>
-            <div class="cat-btn" onclick="showPanel('firstcourses-en','menu-en')">First Courses</div>
-            <div class="cat-btn" onclick="showPanel('maincourses-en','menu-en')">Main Courses</div>
-            <div class="cat-btn" onclick="showPanel('desserts-en','menu-en')">Desserts</div>
-            <div class="cat-btn" onclick="showPanel('specialmenus-en','menu-en')">Special Menus</div>
-            <div class="cat-btn" onclick="showPanel('aperitifs-en','menu-en')">Aperitifs</div>
-            <div class="cat-btn" onclick="showPanel('softdrinks-en','menu-en')">Soft Drinks</div>
-            <div class="cat-btn" onclick="showPanel('craftbeer-en','menu-en')">Craft Beer</div>
-            <div class="cat-btn" onclick="showPanel('afterdinner-en','menu-en')">After Dinner</div>
-            <div class="cat-btn" onclick="showPanel('wines-en','menu-en')">Wines</div>
-        </div>
-    </header>
+    <!-- TABS EN -->
+    <div class="tabs">
+        <div class="tab-btn active" data-tab="en-starters" onclick="openTab('menu-en','en-starters')">Starters</div>
+        <div class="tab-btn" data-tab="en-first" onclick="openTab('menu-en','en-first')">First Courses</div>
+        <div class="tab-btn" data-tab="en-main" onclick="openTab('menu-en','en-main')">Main Courses</div>
+        <div class="tab-btn" data-tab="en-desserts" onclick="openTab('menu-en','en-desserts')">Desserts</div>
+        <div class="tab-btn" data-tab="en-special" onclick="openTab('menu-en','en-special')">Special Menus</div>
+        <div class="tab-btn" data-tab="en-aperitifs" onclick="openTab('menu-en','en-aperitifs')">Aperitifs</div>
+        <div class="tab-btn" data-tab="en-soft" onclick="openTab('menu-en','en-soft')">Soft Drinks</div>
+        <div class="tab-btn" data-tab="en-beer" onclick="openTab('menu-en','en-beer')">Craft Beer</div>
+        <div class="tab-btn" data-tab="en-after" onclick="openTab('menu-en','en-after')">After Dinner</div>
+        <div class="tab-btn" data-tab="en-wines" onclick="openTab('menu-en','en-wines')">Wines</div>
+    </div>
 
-    <!-- STARTERS EN -->
-    <div id="starters-en" class="panel active">
+    <!-- STARTERS -->
+    <div id="en-starters" class="panel active">
         <h2>Starters</h2>
 
-        <div class="item">
-            <span>Mixed cold cuts and cheese selection (for two)</span><span>25,00</span>
-        </div>
-        <div class="desc">
-            A refined board of local cured meats and artisanal cheeses, served with warm bread and homemade preserves.
-        </div>
+        <div class="item"><span>Mixed cold cuts and cheese selection (for two)</span><span>25,00</span></div>
+        <div class="desc">A refined board of local cured meats and artisanal cheeses.</div>
 
-        <div class="item">
-            <span>Smoked “Cecina de León” beef carpaccio with greens</span><span>13,00</span>
-        </div>
-        <div class="desc">
-            Thin slices of smoked Spanish beef, paired with fresh greens and cherry tomatoes.
-        </div>
+        <div class="item"><span>Smoked “Cecina de León” beef carpaccio with greens</span><span>13,00</span></div>
+        <div class="desc">Thin slices of smoked Spanish beef with fresh greens and cherry tomatoes.</div>
 
-        <div class="item">
-            <span>Beef tartare with Sorrento tomatoes and goat cheese mousse</span><span>12,00</span>
-        </div>
-        <div class="desc">
-            Hand‑chopped beef tartare enriched with sweet Sorrento tomatoes and a delicate goat cheese mousse.
-        </div>
+        <div class="item"><span>Beef tartare with Sorrento tomatoes and goat cheese mousse</span><span>12,00</span></div>
+        <div class="desc">Hand‑chopped beef tartare enriched with sweet Sorrento tomatoes.</div>
 
-        <div class="item">
-            <span>Veal carpaccio with tuna sauce</span><span>13,00</span>
-        </div>
-        <div class="desc">
-            Slow‑cooked veal slices dressed with a silky tuna and caper cream.
-        </div>
+        <div class="item"><span>Veal carpaccio with tuna sauce</span><span>13,00</span></div>
+        <div class="desc">Slow‑cooked veal slices dressed with a silky tuna cream.</div>
 
-        <div class="item">
-            <span>Eggplant Parmigiana</span><span>10,00</span>
-        </div>
-        <div class="desc">
-            Layered eggplant gratin with tomato, mozzarella and basil, baked to perfection.
-        </div>
+        <div class="item"><span>Eggplant Parmigiana</span><span>10,00</span></div>
+        <div class="desc">Layered eggplant gratin with tomato, mozzarella and basil.</div>
 
-        <div class="item">
-            <span>Braised beef cheek</span><span>11,00</span>
-        </div>
-        <div class="desc">
-            Tender beef cheek slowly braised until melt‑in‑your‑mouth soft.
-        </div>
+        <div class="item"><span>Braised beef cheek</span><span>11,00</span></div>
+        <div class="desc">Tender beef cheek slowly braised until melt‑in‑your‑mouth soft.</div>
     </div>
 
-    <!-- FIRST COURSES EN -->
-    <div id="firstcourses-en" class="panel">
+    <!-- FIRST COURSES -->
+    <div id="en-first" class="panel">
         <h2>First Courses</h2>
 
-        <div class="item">
-            <span>Nerano‑style risotto with Provolone del Monaco (min. 2)</span><span>15,00 p.p.</span>
-        </div>
-        <div class="desc">
-            Creamy risotto with sautéed courgettes and aged Provolone del Monaco cheese.
-        </div>
+        <div class="item"><span>Nerano‑style risotto with Provolone del Monaco (min. 2)</span><span>15,00 p.p.</span></div>
+        <div class="desc">Creamy risotto with sautéed courgettes and aged Provolone del Monaco.</div>
 
-        <div class="item">
-            <span>Pici pasta with pecorino cream, black pepper and crispy cinta senese bacon</span><span>15,00</span>
-        </div>
-        <div class="desc">
-            Tuscan hand‑rolled pasta tossed in a rich pecorino emulsion and topped with crisp heritage pork.
-        </div>
+        <div class="item"><span>Pici pasta with pecorino cream, black pepper and crispy cinta senese bacon</span><span>15,00</span></div>
+        <div class="desc">Tuscan hand‑rolled pasta tossed in a rich pecorino emulsion.</div>
 
-        <div class="item">
-            <span>Linguine with roasted pepper cream, Patanegra crumble and Parmesan fondue</span><span>15,00</span>
-        </div>
-        <div class="desc">
-            Silky roasted pepper sauce enriched with Patanegra flakes and warm Parmesan fondue.
-        </div>
+        <div class="item"><span>Linguine with roasted pepper cream, Patanegra crumble and Parmesan fondue</span><span>15,00</span></div>
+        <div class="desc">Silky roasted pepper sauce enriched with Patanegra flakes.</div>
 
-        <div class="item">
-            <span>Eggplant‑filled ravioli with yellow and red cherry tomatoes</span><span>18,00</span>
-        </div>
-        <div class="desc">
-            Fresh ravioli filled with smoked eggplant, served with a medley of sweet cherry tomatoes.
-        </div>
+        <div class="item"><span>Eggplant‑filled ravioli with yellow and red cherry tomatoes</span><span>18,00</span></div>
+        <div class="desc">Fresh ravioli filled with smoked eggplant and sweet cherry tomatoes.</div>
 
-        <div class="item">
-            <span>Corteccia pasta with lamb ragù and Parmesan fondue</span><span>18,00</span>
-        </div>
-        <div class="desc">
-            Rustic pasta paired with slow‑cooked lamb ragù and a velvety Parmesan cream.
-        </div>
+        <div class="item"><span>Corteccia pasta with lamb ragù and Parmesan fondue</span><span>18,00</span></div>
+        <div class="desc">Rustic pasta paired with slow‑cooked lamb ragù.</div>
 
-        <div class="item">
-            <span>Deconstructed lasagna with rabbit ragù and Parmesan fondue</span><span>16,00</span>
-        </div>
-        <div class="desc">
-            Buttered lasagna sheets layered with delicate rabbit ragù and melted Parmesan.
-        </div>
+        <div class="item"><span>Deconstructed lasagna with rabbit ragù and Parmesan fondue</span><span>16,00</span></div>
+        <div class="desc">Lasagna sheets layered with delicate rabbit ragù.</div>
     </div>
 
-    <!-- MAIN COURSES EN -->
-    <div id="maincourses-en" class="panel">
+    <!-- MAIN COURSES -->
+    <div id="en-main" class="panel">
         <h2>Main Courses</h2>
 
         <div class="item"><span>Pork fillet with sautéed escarole</span><span>20,00</span></div>
@@ -665,7 +516,7 @@ function showSub(id, menu) {
         <div class="desc">Low‑temperature cooked ribs glazed with smoky BBQ sauce.</div>
 
         <div class="item"><span>Sliced beef with rocket and cherry tomatoes</span><span>25,00</span></div>
-        <div class="desc">Prime beef grilled and sliced, served with rocket and sweet cherry tomatoes.</div>
+        <div class="desc">Prime beef grilled and sliced, served with rocket and tomatoes.</div>
 
         <div class="item"><span>Roast lamb shoulder with potatoes</span><span>22,00</span></div>
         <div class="desc">Slow‑roasted lamb shoulder with golden potatoes.</div>
@@ -680,8 +531,8 @@ function showSub(id, menu) {
         <div class="desc">Choose your preferred cuts directly from our display.</div>
     </div>
 
-    <!-- DESSERTS EN -->
-    <div id="desserts-en" class="panel">
+    <!-- DESSERTS -->
+    <div id="en-desserts" class="panel">
         <h2>Desserts</h2>
 
         <div class="item"><span>Baba with lemon cream</span><span>6,00</span></div>
@@ -691,209 +542,194 @@ function showSub(id, menu) {
         <div class="desc">A frozen caramel mousse balanced with a touch of sea salt.</div>
 
         <div class="item"><span>Apricot tartlet with vanilla ice cream</span><span>6,00</span></div>
-        <div class="desc">Crisp tartlet filled with apricot confit, served with vanilla gelato.</div>
+        <div class="desc">Crisp tartlet filled with apricot confit and vanilla gelato.</div>
 
         <div class="item"><span>Tiramisu</span><span>6,00</span></div>
         <div class="desc">Classic tiramisu with mascarpone cream.</div>
     </div>
 
-    <!-- SPECIAL MENUS EN -->
-    <div id="specialmenus-en" class="panel">
+    <!-- SPECIAL MENUS -->
+    <div id="en-special" class="panel">
         <h2>Special Menus</h2>
 
         <div class="item"><span>Classic Grill Menu</span><span>35,00</span></div>
-        <div class="desc">
-            Four appetizers followed by a mixed meat grill with French fries.  
-            Water and service included (whole table).
-        </div>
+        <div class="desc">Four appetizers followed by a mixed meat grill with French fries.</div>
 
         <div class="item"><span>Deluxe Grill Menu</span><span>45,00</span></div>
-        <div class="desc">
-            Four appetizers and 1kg of premium meat from our showcase, with side dish.  
-            Water and service included (whole table).
-        </div>
+        <div class="desc">Four appetizers and 1kg of premium meat from our showcase.</div>
 
         <div class="item"><span>“Just Enough to Feel Good” Tasting Menu</span><span>40,00</span></div>
-        <div class="desc">
-            Appetizer, first course, main course and dessert.  
-            Tasting menu for the entire table, drinks excluded.
-        </div>
+        <div class="desc">Appetizer, first course, main course and dessert.</div>
 
         <div class="item"><span>Full Tasting Menu</span><span>50,00</span></div>
-        <div class="desc">
-            Two appetizers, first course, main course and dessert.  
-            Tasting menu for the entire table, drinks excluded.
-        </div>
+        <div class="desc">Two appetizers, first course, main course and dessert.</div>
     </div>
-<!-- APERITIFS EN -->
-<div id="aperitifs-en" class="panel">
-    <h2>Aperitifs</h2>
 
-    <div class="item"><span>Aperol Spritz</span><span>10,00</span></div>
-    <div class="item"><span>Campari Spritz</span><span>10,00</span></div>
-    <div class="item"><span>Negroni</span><span>10,00</span></div>
-    <div class="item"><span>Negroni Sbagliato</span><span>10,00</span></div>
-    <div class="item"><span>Gin Tonic</span><span>10,00</span></div>
-    <div class="item"><span>Gin Lemon</span><span>10,00</span></div>
-    <div class="item"><span>Vodka Tonic</span><span>10,00</span></div>
-    <div class="item"><span>Vodka Lemon</span><span>10,00</span></div>
-</div>
+    <!-- APERITIFS -->
+    <div id="en-aperitifs" class="panel">
+        <h2>Aperitifs</h2>
 
-<!-- SOFT DRINKS EN -->
-<div id="softdrinks-en" class="panel">
-    <h2>Soft Drinks</h2>
+        <div class="item"><span>Aperol Spritz</span><span>10,00</span></div>
+        <div class="item"><span>Campari Spritz</span><span>10,00</span></div>
+        <div class="item"><span>Negroni</span><span>10,00</span></div>
+        <div class="item"><span>Negroni Sbagliato</span><span>10,00</span></div>
+        <div class="item"><span>Gin Tonic</span><span>10,00</span></div>
+        <div class="item"><span>Gin Lemon</span><span>10,00</span></div>
+        <div class="item"><span>Vodka Tonic</span><span>10,00</span></div>
+        <div class="item"><span>Vodka Lemon</span><span>10,00</span></div>
+    </div>
 
-    <div class="item"><span>Electa Ferrarelle Water 0.75L</span><span>2,50</span></div>
-    <div class="item"><span>Ferrarelle Water 0.75L</span><span>2,50</span></div>
-    <div class="item"><span>Coca Cola</span><span>2,50</span></div>
-    <div class="item"><span>Coca Cola Zero</span><span>2,50</span></div>
-</div>
+    <!-- SOFT DRINKS -->
+    <div id="en-soft" class="panel">
+        <h2>Soft Drinks</h2>
 
-<!-- CRAFT BEER EN -->
-<div id="craftbeer-en" class="panel">
-    <h2>Craft Beer “Birrai Vesuviani”</h2>
+        <div class="item"><span>Electa Ferrarelle Water 0.75L</span><span>2,50</span></div>
+        <div class="item"><span>Ferrarelle Water 0.75L</span><span>2,50</span></div>
+        <div class="item"><span>Coca Cola</span><span>2,50</span></div>
+        <div class="item"><span>Coca Cola Zero</span><span>2,50</span></div>
+    </div>
 
-    <div class="item"><span>Golden Blonde / IPA Blonde / Red Ale 33cl</span><span>6,00</span></div>
-    <div class="item"><span>Blonde / Red Ale 75cl</span><span>15,00</span></div>
-</div>
+    <!-- CRAFT BEER -->
+    <div id="en-beer" class="panel">
+        <h2>Craft Beer “Birrai Vesuviani”</h2>
 
-<!-- AFTER DINNER EN -->
-<div id="afterdinner-en" class="panel">
-    <h2>After Dinner</h2>
+        <div class="item"><span>Golden Blonde / IPA Blonde / Red Ale 33cl</span><span>6,00</span></div>
+        <div class="item"><span>Blonde / Red Ale 75cl</span><span>15,00</span></div>
+    </div>
 
-    <div class="item"><span>Laphroaig Quarter Cask Whisky</span><span>8,00</span></div>
-    <div class="item"><span>Johnnie Walker Black 12yo Whisky</span><span>6,00</span></div>
-    <div class="item"><span>Francois Peyrot Cognac</span><span>6,00</span></div>
-    <div class="item"><span>Hennessy V.S. Cognac</span><span>7,00</span></div>
-    <div class="item"><span>Berta White Grappa</span><span>5,00</span></div>
-    <div class="item"><span>Berta Aged Grappa</span><span>5,00</span></div>
-    <div class="item"><span>J. Bally Agricole Rum</span><span>6,00</span></div>
-    <div class="item"><span>Don Papa 7yo Rum</span><span>7,00</span></div>
-    <div class="item"><span>Diplomatico Reserva Exclusiva Rum</span><span>7,00</span></div>
-    <div class="item"><span>Ben Ryé Passito di Pantelleria (Donnafugata)</span><span>8,00</span></div>
-    <div class="item"><span>Pellegrino Passito di Pantelleria</span><span>5,00</span></div>
-    <div class="item"><span>Elisir delle Crete “Vin Pepato”</span><span>6,00</span></div>
-    <div class="item"><span>Graham’s 10yo Port</span><span>7,00</span></div>
-    <div class="item"><span>Limoncello</span><span>4,00</span></div>
-    <div class="item"><span>Meloncello</span><span>4,00</span></div>
-    <div class="item"><span>Liquorice Liqueur</span><span>4,00</span></div>
-    <div class="item"><span>Jägermeister</span><span>5,00</span></div>
-    <div class="item"><span>Jefferson Amaro</span><span>6,00</span></div>
-    <div class="item"><span>Amaro del Capo</span><span>5,00</span></div>
-</div>
+    <!-- AFTER DINNER -->
+    <div id="en-after" class="panel">
+        <h2>After Dinner</h2>
 
-<!-- WINES EN -->
-<div id="wines-en" class="panel">
-    <h2>Wines</h2>
+        <div class="item"><span>Laphroaig Quarter Cask Whisky</span><span>8,00</span></div>
+        <div class="item"><span>Johnnie Walker Black 12yo Whisky</span><span>6,00</span></div>
+        <div class="item"><span>Francois Peyrot Cognac</span><span>6,00</span></div>
+        <div class="item"><span>Hennessy V.S. Cognac</span><span>7,00</span></div>
+        <div class="item"><span>Berta White Grappa</span><span>5,00</span></div>
+        <div class="item"><span>Berta Aged Grappa</span><span>5,00</span></div>
+        <div class="item"><span>J. Bally Agricole Rum</span><span>6,00</span></div>
+        <div class="item"><span>Don Papa 7yo Rum</span><span>7,00</span></div>
+        <div class="item"><span>Diplomatico Reserva Exclusiva Rum</span><span>7,00</span></div>
+        <div class="item"><span>Ben Ryé Passito di Pantelleria — Donnafugata</span><span>8,00</span></div>
+        <div class="item"><span>Pellegrino Passito di Pantelleria</span><span>5,00</span></div>
+        <div class="item"><span>Elisir delle Crete “Vin Pepato”</span><span>6,00</span></div>
+        <div class="item"><span>Graham’s 10yo Port</span><span>7,00</span></div>
+        <div class="item"><span>Limoncello</span><span>4,00</span></div>
+        <div class="item"><span>Meloncello</span><span>4,00</span></div>
+        <div class="item"><span>Liquorice Liqueur</span><span>4,00</span></div>
+        <div class="item"><span>Jägermeister</span><span>5,00</span></div>
+        <div class="item"><span>Jefferson Amaro</span><span>6,00</span></div>
+        <div class="item"><span>Amaro del Capo</span><span>5,00</span></div>
+    </div>
 
-    <!-- CHAMPAGNE -->
-    <h3>Champagne</h3>
-    <div class="item"><span>Blanc de Blancs Grand Cru — Bruno Paillard</span><span>140,00</span></div>
-    <div class="item"><span>Louise Brochet Brut</span><span>60,00</span></div>
-    <div class="item"><span>Marie Le Brune Blanc de Blancs</span><span>55,00</span></div>
+    <!-- WINES -->
+    <div id="en-wines" class="panel">
+        <h2>Wines</h2>
 
-    <!-- SPARKLING -->
-    <h3>Sparkling Wines</h3>
-    <div class="item"><span>Blanquette de Limoux Dauteville — Pierre Candeval</span><span>25,00</span></div>
-    <div class="item"><span>Valdobbiadene Prosecco</span><span>25,00</span></div>
+        <h3>Champagne</h3>
+        <div class="item"><span>Blanc de Blancs Grand Cru — Bruno Paillard</span><span>140,00</span></div>
+        <div class="item"><span>Louise Brochet Brut</span><span>60,00</span></div>
+        <div class="item"><span>Marie Le Brune Blanc de Blancs</span><span>55,00</span></div>
 
-    <!-- WHITE WINES -->
-    <h3>White Wines</h3>
-    <div class="item"><span>Pinot Grigio 2022 — Livio Felluga</span><span>42,00</span></div>
-    <div class="item"><span>Chardonnay 2022 — Livio Felluga</span><span>42,00</span></div>
-    <div class="item"><span>Gewurztraminer</span><span>20,00</span></div>
-    <div class="item"><span>Fiano di Avellino DOCG — Colli di Lapio</span><span>30,00</span></div>
-    <div class="item"><span>Greco di Tufo “Vigna Cicogna” — Benito Ferrara</span><span>35,00</span></div>
-    <div class="item"><span>Falanghina del Sannio DOP — Fattoria La Rivolta</span><span>20,00</span></div>
+        <h3>Sparkling Wines</h3>
+        <div class="item"><span>Blanquette de Limoux Dauteville — Pierre Candeval</span><span>25,00</span></div>
+        <div class="item"><span>Valdobbiadene Prosecco</span><span>25,00</span></div>
 
-    <!-- ROSÉ -->
-    <h3>Rosé Wines</h3>
-    <div class="item"><span>Vetere — San Salvatore</span><span>30,00</span></div>
-    <div class="item"><span>Lumera — Donnafugata</span><span>25,00</span></div>
+        <h3>White Wines</h3>
+        <div class="item"><span>Pinot Grigio 2022 — Livio Felluga</span><span>42,00</span></div>
+        <div class="item"><span>Chardonnay 2022 — Livio Felluga</span><span>42,00</span></div>
+        <div class="item"><span>Gewurztraminer</span><span>20,00</span></div>
+        <div class="item"><span>Fiano di Avellino DOCG — Colli di Lapio</span><span>30,00</span></div>
+        <div class="item"><span>Greco di Tufo “Vigna Cicogna” — Benito Ferrara</span><span>35,00</span></div>
+        <div class="item"><span>Falanghina del Sannio DOP — Fattoria La Rivolta</span><span>20,00</span></div>
 
-    <!-- RED WINES -->
-    <h3>Red Wines</h3>
+        <h3>Rosé Wines</h3>
+        <div class="item"><span>Vetere — San Salvatore</span><span>30,00</span></div>
+        <div class="item"><span>Lumera — Donnafugata</span><span>25,00</span></div>
 
-    <h4>France</h4>
-    <div class="item"><span>Château Tour de Perrigal Bordeaux Supérieur 2021</span><span>20,00</span></div>
-    <div class="item"><span>Château Sergant “La Rivière” Bordeaux 2021</span><span>48,00</span></div>
-    <div class="item"><span>Pierre André Pinot Noir Vieilles Vignes — Bourgogne</span><span>35,00</span></div>
+        <h3>Red Wines</h3>
 
-    <h4>Piedmont</h4>
-    <div class="item"><span>Barolo 2017 — Ceretto</span><span>100,00</span></div>
-    <div class="item"><span>Barolo “Ornato” 2017 — Pio Cesare</span><span>120,00</span></div>
-    <div class="item"><span>Barolo “Le Cinque Vigne” — Damilano</span><span>65,00</span></div>
-    <div class="item"><span>Barbaresco — Bruno Rocca</span><span>80,00</span></div>
-    <div class="item"><span>Dolcetto d’Alba — Damilano</span><span>28,00</span></div>
-    <div class="item"><span>Nebbiolo “Marghe” — Damilano</span><span>35,00</span></div>
-    <div class="item"><span>Barbera d’Alba DOC “Piana” 2021 — Ceretto</span><span>32,00</span></div>
-    <div class="item"><span>Barbera d’Asti — Damilano</span><span>25,00</span></div>
+        <h4>France</h4>
+        <div class="item"><span>Château Tour de Perrigal Bordeaux Supérieur 2021</span><span>20,00</span></div>
+        <div class="item"><span>Château Sergant “La Rivière” Bordeaux 2021</span><span>48,00</span></div>
+        <div class="item"><span>Pierre André Pinot Noir Vieilles Vignes — Bourgogne</span><span>35,00</span></div>
 
-    <h4>Veneto</h4>
-    <div class="item"><span>Amarone della Valpolicella DOCG — Bertani</span><span>70,00</span></div>
-    <div class="item"><span>Amarone Costasera 2016 — Masi</span><span>60,00</span></div>
-    <div class="item"><span>Valpolicella DOC — Masi</span><span>25,00</span></div>
-    <div class="item"><span>Valpolicella Ripasso — Costa Arente</span><span>30,00</span></div>
+        <h4>Piedmont</h4>
+        <div class="item"><span>Barolo 2017 — Ceretto</span><span>100,00</span></div>
+        <div class="item"><span>Barolo “Ornato” 2017 — Pio Cesare</span><span>120,00</span></div>
+        <div class="item"><span>Barolo “Le Cinque Vigne” — Damilano</span><span>65,00</span></div>
+        <div class="item"><span>Barbaresco — Bruno Rocca</span><span>80,00</span></div>
+        <div class="item"><span>Dolcetto d’Alba — Damilano</span><span>28,00</span></div>
+        <div class="item"><span>Nebbiolo “Marghe” — Damilano</span><span>35,00</span></div>
+        <div class="item"><span>Barbera d’Alba DOC “Piana” 2021 — Ceretto</span><span>32,00</span></div>
+        <div class="item"><span>Barbera d’Asti — Damilano</span><span>25,00</span></div>
 
-    <h4>Friuli Venezia Giulia</h4>
-    <div class="item"><span>Merlot IGT — Alturis</span><span>20,00</span></div>
+             <h4>Veneto</h4>
+        <div class="item"><span>Amarone della Valpolicella DOCG — Bertani</span><span>70,00</span></div>
+        <div class="item"><span>Amarone Costasera 2016 — Masi</span><span>60,00</span></div>
+        <div class="item"><span>Valpolicella DOC — Masi</span><span>25,00</span></div>
+        <div class="item"><span>Valpolicella Ripasso — Costa Arente</span><span>30,00</span></div>
 
-    <h4>Tuscany</h4>
-    <div class="item"><span>Brunello di Montalcino 2020 — Marchesi Antinori</span><span>83,00</span></div>
-    <div class="item"><span>Brunello di Montalcino — Tenuta La Fuga</span><span>50,00</span></div>
-    <div class="item"><span>Il Bruciato — Guado al Tasso</span><span>40,00</span></div>
-    <div class="item"><span>Chianti Classico Magnum — Castellina</span><span>100,00</span></div>
-    <div class="item"><span>Chianti — Frescobaldi</span><span>20,00</span></div>
-    <div class="item"><span>Chianti Classico DOCG “Peppoli” — Marchesi Antinori</span><span>35,00</span></div>
-    <div class="item"><span>Tignanello 2020 — Marchesi Antinori</span><span>300,00</span></div>
-    <div class="item"><span>Sassicaia 2019 — Tenuta San Guido</span><span>500,00</span></div>
-    <div class="item"><span>Rosso di Montalcino DOC 2021 — Mastrojanni</span><span>45,00</span></div>
-    <div class="item"><span>Rosso Toscana IGT “San Pio” — Mastrojanni</span><span>40,00</span></div>
-    <div class="item"><span>Guidalberto — Tenuta San Guido</span><span>90,00</span></div>
-    <div class="item"><span>La Vite Lucente 2021 Magnum — Frescobaldi</span><span>130,00</span></div>
-    <div class="item"><span>Chianti Classico DOCG 2022 — Tenuta di Nozzole</span><span>25,00</span></div>
+        <h4>Friuli Venezia Giulia</h4>
+        <div class="item"><span>Merlot IGT — Alturis</span><span>20,00</span></div>
 
-    <h4>Umbria & Marche</h4>
-    <div class="item"><span>Rosso di Montefalco DOC — Tenuta Baldo</span><span>20,00</span></div>
-    <div class="item"><span>Otto Borghi — CasalFarneto</span><span>22,00</span></div>
+        <h4>Tuscany</h4>
+        <div class="item"><span>Brunello di Montalcino 2020 — Marchesi Antinori</span><span>83,00</span></div>
+        <div class="item"><span>Brunello di Montalcino — Tenuta La Fuga</span><span>50,00</span></div>
+        <div class="item"><span>Il Bruciato — Guado al Tasso</span><span>40,00</span></div>
+        <div class="item"><span>Chianti Classico Magnum — Castellina</span><span>100,00</span></div>
+        <div class="item"><span>Chianti — Frescobaldi</span><span>20,00</span></div>
+        <div class="item"><span>Chianti Classico DOCG “Peppoli” — Marchesi Antinori</span><span>35,00</span></div>
+        <div class="item"><span>Tignanello 2020 — Marchesi Antinori</span><span>300,00</span></div>
+        <div class="item"><span>Sassicaia 2019 — Tenuta San Guido</span><span>500,00</span></div>
+        <div class="item"><span>Rosso di Montalcino DOC 2021 — Mastrojanni</span><span>45,00</span></div>
+        <div class="item"><span>Rosso Toscana IGT “San Pio” — Mastrojanni</span><span>40,00</span></div>
+        <div class="item"><span>Guidalberto — Tenuta San Guido</span><span>90,00</span></div>
+        <div class="item"><span>La Vite Lucente 2021 Magnum — Frescobaldi</span><span>130,00</span></div>
+        <div class="item"><span>Chianti Classico DOCG 2022 — Tenuta di Nozzole</span><span>25,00</span></div>
 
-    <h4>Puglia</h4>
-    <div class="item"><span>Primitivo di Manduria “Talò” — Feudi di San Marzano</span><span>25,00</span></div>
-    <div class="item"><span>Primitivo “60 anni” — Feudi di San Marzano</span><span>45,00</span></div>
-    <div class="item"><span>Il Fedale IGP Negramaro — Vespa</span><span>25,00</span></div>
+        <h4>Umbria & Marche</h4>
+        <div class="item"><span>Rosso di Montefalco DOC — Tenuta Baldo</span><span>20,00</span></div>
+        <div class="item"><span>Otto Borghi — CasalFarneto</span><span>22,00</span></div>
 
-    <h4>Campania & Basilicata</h4>
-    <div class="item"><span>Aglianico del Taburno 2019 — Fattoria La Rivolta</span><span>25,00</span></div>
-    <div class="item"><span>Aglianico “Jungano” 2020 — San Salvatore</span><span>35,00</span></div>
-    <div class="item"><span>Campi Taurasini DOC — Donna Chiara</span><span>27,00</span></div>
-    <div class="item"><span>Sangue di Giuda — Vistarino</span><span>20,00</span></div>
-    <div class="item"><span>Piedirosso del Taburno — Fattoria La Rivolta</span><span>25,00</span></div>
-    <div class="item"><span>Lacryma Christi del Vesuvio — Mastroberardino</span><span>22,00</span></div>
-    <div class="item"><span>Taurasi Riserva — Sannino</span><span>55,00</span></div>
-    <div class="item"><span>Taurasi “Cinque Querce” — Salvatore Molettieri</span><span>75,00</span></div>
-    <div class="item"><span>Taurasi “Radici” DOCG — Mastroberardino</span><span>50,00</span></div>
-    <div class="item"><span>Taurasi — Colli di Lapio</span><span>60,00</span></div>
-    <div class="item"><span>Aglianico del Vulture “L’Atto” — Cantine del Notaio</span><span>20,00</span></div>
-    <div class="item"><span>Aglianico Campania — Sannino</span><span>20,00</span></div>
-    <div class="item"><span>Gragnano — Cantine Federiciane</span><span>20,00</span></div>
-    <div class="item"><span>Lacryma Christi del Vesuvio 375ml — Mastroberardino</span><span>14,00</span></div>
-    <div class="item"><span>Aglianico Irpinia DOC 375ml — Mastroberardino</span><span>14,00</span></div>
+        <h4>Puglia</h4>
+        <div class="item"><span>Primitivo di Manduria “Talò” — Feudi di San Marzano</span><span>25,00</span></div>
+        <div class="item"><span>Primitivo “60 anni” — Feudi di San Marzano</span><span>45,00</span></div>
+        <div class="item"><span>Il Fedale IGP Negramaro — Vespa</span><span>25,00</span></div>
 
-    <h4>Sicily & Sardinia</h4>
-    <div class="item"><span>Camelot Cabernet Sauvignon — Firriato</span><span>45,00</span></div>
-    <div class="item"><span>Nero d’Avola “Harmonium” — Firriato</span><span>45,00</span></div>
-    <div class="item"><span>Perricone “Ribeca” — Firriato</span><span>45,00</span></div>
-    <div class="item"><span>Nero d’Avola “Sant’Agostino” — Firriato</span><span>30,00</span></div>
-    <div class="item"><span>Nero d’Avola “Sherazade” — Donnafugata</span><span>20,00</span></div>
-    <div class="item"><span>Etna Rosso — Firriato</span><span>40,00</span></div>
-    <div class="item"><span>Etna Rosso — Donnafugata</span><span>40,00</span></div>
-</div>
+        <h4>Campania & Basilicata</h4>
+        <div class="item"><span>Aglianico del Taburno 2019 — Fattoria La Rivolta</span><span>25,00</span></div>
+        <div class="item"><span>Aglianico “Jungano” 2020 — San Salvatore</span><span>35,00</span></div>
+        <div class="item"><span>Campi Taurasini DOC — Donna Chiara</span><span>27,00</span></div>
+        <div class="item"><span>Sangue di Giuda — Vistarino</span><span>20,00</span></div>
+        <div class="item"><span>Piedirosso del Taburno — Fattoria La Rivolta</span><span>25,00</span></div>
+        <div class="item"><span>Lacryma Christi del Vesuvio — Mastroberardino</span><span>22,00</span></div>
+        <div class="item"><span>Taurasi Riserva — Sannino</span><span>55,00</span></div>
+        <div class="item"><span>Taurasi “Cinque Querce” — Salvatore Molettieri</span><span>75,00</span></div>
+        <div class="item"><span>Taurasi “Radici” DOCG — Mastroberardino</span><span>50,00</span></div>
+        <div class="item"><span>Taurasi — Colli di Lapio</span><span>60,00</span></div>
+        <div class="item"><span>Aglianico del Vulture “L’Atto” — Cantine del Notaio</span><span>20,00</span></div>
+        <div class="item"><span>Aglianico Campania — Sannino</span><span>20,00</span></div>
+        <div class="item"><span>Gragnano — Cantine Federiciane</span><span>20,00</span></div>
+        <div class="item"><span>Lacryma Christi del Vesuvio 375ml — Mastroberardino</span><span>14,00</span></div>
+        <div class="item"><span>Aglianico Irpinia DOC 375ml — Mastroberardino</span><span>14,00</span></div>
 
-<footer>
-    <p>Tradition. Care. Passion.</p>
-    <p>© Quanto Basta 2026</p>
-</footer>
-</div>
+        <h4>Sicily & Sardinia</h4>
+        <div class="item"><span>Camelot Cabernet Sauvignon — Firriato</span><span>45,00</span></div>
+        <div class="item"><span>Nero d’Avola “Harmonium” — Firriato</span><span>45,00</span></div>
+        <div class="item"><span>Perricone “Ribeca” — Firriato</span><span>45,00</span></div>
+        <div class="item"><span>Nero d’Avola “Sant’Agostino” — Firriato</span><span>30,00</span></div>
+        <div class="item"><span>Nero d’Avola “Sherazade” — Donnafugata</span><span>20,00</span></div>
+        <div class="item"><span>Etna Rosso — Firriato</span><span>40,00</span></div>
+        <div class="item"><span>Etna Rosso — Donnafugata</span><span>40,00</span></div>
 
+    </div> <!-- end wines EN -->
+
+    <footer>
+        <p>Tradition. Care. Passion.</p>
+        <p>© Quanto Basta 2026</p>
+    </footer>
+
+</div> <!-- end menu EN -->
 </body>
 </html>
